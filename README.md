@@ -194,6 +194,12 @@ cd mac && ./build.sh && open InstantLore.app
    GitHub Actions builds the Windows exe, runs a self-test on it, and attaches it to the release.
 3. Build the Mac package with `cd mac && ./build.sh dmg` and attach it: `gh release upload vX.Y.Z mac/InstantLore-X.Y.Z-mac.dmg`.
 
+## License
+
+InstantLore is released under the [MIT License](LICENSE). © 2026 Soulrose
+
+The Windows build bundles third-party libraries under their own licenses: RapidOCR and its PP-OCR models (Apache-2.0), ONNX Runtime (MIT), uiautomation (Apache-2.0), mss (MIT), keyboard (MIT) and NumPy (BSD-3-Clause).
+
 ## Credits
 
 - Text recognition: [RapidOCR](https://github.com/RapidAI/RapidOCR) (PP-OCR models)
