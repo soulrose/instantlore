@@ -1,6 +1,6 @@
 # InstantLore
 
-Live translated subtitles for games. Version 1.5.0 · Developed by **Soulrose**
+Live translated subtitles for games. Version 1.5.1 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
@@ -152,6 +152,16 @@ To be asked again, open `.instantlore.json` in your user folder and set `"close_
 ## Privacy
 
 Text recognition runs on your computer. The recognized subtitle text is sent to Google Translate, or to Gemini if you chose it, to be translated (Apple Translation on the Mac works offline). With Gemini, the last few lines are sent along as context. No screenshots or audio leave your computer; in Listen mode, Windows Live Captions processes the audio on your PC.
+
+## How fast
+
+The translation appears about **1–2 seconds** after the game's subtitle (Screen reading: Normal, Google Translate). Lines InstantLore has already translated appear immediately.
+
+To make it quicker (Windows):
+- **Screen reading → Fast** reads the screen every 0.3 s instead of 0.5 s.
+- **Instant subtitles** translates a line as soon as it appears instead of waiting for it to settle, about 0.5 s sooner. In games where subtitles type out letter by letter, the translation updates as the line grows. In Listen mode it treats a 1-second pause as the end of a sentence instead of 2 seconds.
+
+Gemini usually takes a little longer to reply than Google Translate.
 
 ## Performance
 

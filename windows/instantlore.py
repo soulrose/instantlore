@@ -24,7 +24,7 @@ from pathlib import Path
 
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
-APP_VERSION = "1.5.0"
+APP_VERSION = "1.5.1"
 DEVELOPER = "Soulrose"
 REPO = "soulrose/instantlore"
 
@@ -126,6 +126,8 @@ STRINGS = {
         "st_reload": "Loading reader for {lang}…", "st_error": "Error: {e}",
         "st_ocr_fail": "Couldn't load the text reader: {e}",
         "st_no_keys": "Hotkeys unavailable, use this window",
+        "instant": "Instant subtitles",
+        "instant_hint": "About 0.5 s sooner. Text that types out letter by letter may flicker",
         "sec_tr": "Translation",
         "engine": "Translate with",
         "engine_hint_google": "Free, no setup",
@@ -194,6 +196,8 @@ STRINGS = {
         "st_reload": "กำลังโหลดตัวอ่านภาษา{lang}…", "st_error": "ผิดพลาด: {e}",
         "st_ocr_fail": "โหลดตัวอ่านข้อความไม่ได้: {e}",
         "st_no_keys": "ปุ่มลัดใช้ไม่ได้ ใช้ปุ่มในหน้าต่างนี้แทน",
+        "instant": "ซับแปลทันที",
+        "instant_hint": "เร็วขึ้นราว 0.5 วิ ซับที่พิมพ์ทีละตัวอาจกะพริบ",
         "sec_tr": "การแปล",
         "engine": "แปลด้วย",
         "engine_hint_google": "ฟรี ไม่ต้องตั้งค่า",
@@ -261,6 +265,8 @@ STRINGS = {
         "st_reload": "正在加载{lang}识别…", "st_error": "错误：{e}",
         "st_ocr_fail": "无法加载文字识别：{e}",
         "st_no_keys": "快捷键不可用，请使用此窗口",
+        "instant": "即时字幕",
+        "instant_hint": "约快 0.5 秒；逐字出现的字幕可能会闪烁",
         "sec_tr": "翻译",
         "engine": "翻译引擎",
         "engine_hint_google": "免费，无需设置",
@@ -328,6 +334,8 @@ STRINGS = {
         "st_reload": "{lang}の認識を読み込み中…", "st_error": "エラー：{e}",
         "st_ocr_fail": "文字認識を読み込めません：{e}",
         "st_no_keys": "ショートカットが使えません。このウィンドウを使ってください",
+        "instant": "即時字幕",
+        "instant_hint": "約0.5秒速く表示。1文字ずつ出る字幕はちらつくことがあります",
         "sec_tr": "翻訳",
         "engine": "翻訳エンジン",
         "engine_hint_google": "無料・設定不要",
@@ -409,6 +417,7 @@ DEFAULTS = {
     "engine": "google",  # google = Google Translate (ฟรี ไม่ต้องตั้งค่า), gemini = Gemini (ต้องมี API key ฟรี)
     "gemini_key": "",    # เก็บไว้ในเครื่องนี้เท่านั้น
     "gemini_model": "",  # ว่าง = รุ่น Flash-Lite ล่าสุด
+    "instant": False,   # True = แปลทันทีที่เห็นซับ ไม่รอให้ซับนิ่ง (เร็วขึ้น ~0.5 วิ)
     "mode": "screen",   # screen = อ่านซับจากจอ, listen = ฟังเสียงผ่าน Live Captions ของ Windows 11
     "close_action": "ask",  # กดปุ่ม X: ask = ถามทุกครั้ง, minimize = ย่อ, quit = ปิดโปรแกรม
 }
@@ -789,6 +798,19 @@ class CaptionTracker:
         elif tail and now - self.partial_since >= self.pause and len(tail.split()) >= self.min_words:
             self._emit(tail, out)
         return out
+
+
+def subtitle_step(key, shown, candidate, instant):
+    """ตัดสินว่าจะแปลข้อความที่อ่านได้รอบนี้ไหม: คืน (แปลเลยไหม, candidate ใหม่)
+
+    ปกติรอให้ข้อความเหมือนเดิมอีก 1 รอบก่อน (กันแปลซับที่ยังพิมพ์ไม่จบ)
+    instant = แปลทันทีที่ข้อความเปลี่ยน
+    """
+    if similar(key, shown) and not (instant and len(key) > len(shown)):
+        return False, candidate  # ข้อความเดิม (ยกเว้นโหมดแปลทันทีที่ซับยาวขึ้น ต้องแปลใหม่)
+    if instant or similar(key, candidate):
+        return True, key
+    return False, key
 
 
 def screen_is_black(bgra):
@@ -1351,6 +1373,9 @@ class App:
         row = card.row(self.t("scan"))
         Segmented(row, [(0.3, self.t("fast")), (0.5, self.t("normal")), (1.0, self.t("light"))],
                   self.cfg["interval"], self.set_interval).pack(side="left")
+        row = card.row(self.t("instant"), self.t("instant_hint"))
+        self.w_instant = Toggle(row, self.cfg.get("instant", False), self.set_instant)
+        self.w_instant.pack(side="left")
 
         card = section("sec_tr", right)
         gem = self.cfg.get("engine") == "gemini"
@@ -1596,6 +1621,10 @@ class App:
         self.w_box.set(self.cfg["bg_box"])
         save_config(self.cfg)
         self.sub.redraw()
+
+    def set_instant(self, v):
+        self.cfg["instant"] = bool(v)
+        save_config(self.cfg)
 
     def set_interval(self, v):
         self.cfg["interval"] = v
@@ -1845,7 +1874,8 @@ class App:
             with lc.session():
                 lc.start()
                 self.ui_q.put(("status", ("st_listen", "good", {})))
-                tracker = CaptionTracker()
+                # โหมดแปลทันที: เงียบ 1 วิ ก็ถือว่าพูดจบประโยค (ปกติ 2 วิ)
+                tracker = CaptionTracker(pause=1.0 if self.cfg.get("instant") else 2.0)
                 last_shown = 0.0
                 while self.running:
                     now = time.time()
@@ -1897,15 +1927,13 @@ class App:
                         candidate = ""
                     else:
                         empty_since = None
-                        if not similar(key, shown):
-                            if not similar(key, candidate):
-                                candidate = key  # รอให้ข้อความนิ่งอีก 1 รอบก่อนแปล
-                            else:
-                                shown = key
-                                th = self.translate(text)
-                                if self.running:
-                                    self.ui_q.put(("sub", (text, th)))
-                                    self.ui_q.put(("status", ("st_running", "good", {})))
+                        go, candidate = subtitle_step(key, shown, candidate, self.cfg.get("instant", False))
+                        if go:
+                            shown = key
+                            th = self.translate(text)
+                            if self.running:
+                                self.ui_q.put(("sub", (text, th)))
+                                self.ui_q.put(("status", ("st_running", "good", {})))
                 except Exception as e:
                     shown = ""
                     self.ui_q.put(("status", ("st_error", "bad", {"e": e})))
