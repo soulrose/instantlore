@@ -1,8 +1,16 @@
 # InstantLore
 
-Version 1.2 · Developed by **Soulrose**
+Version 1.3 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
+
+<details><summary>Thai, Chinese and Japanese interface</summary>
+
+![Thai](docs/screenshot-th.png)
+![Chinese](docs/screenshot-zh.png)
+![Japanese](docs/screenshot-ja.png)
+
+</details>
 
 InstantLore reads the subtitles from an area of your screen, translates them, and shows the translation in a floating box over the game. You can place the translation right on top of the game's own subtitles: InstantLore leaves its own windows out of the screen capture, so it still reads the original text underneath.
 
@@ -17,9 +25,12 @@ Get the latest build from [Releases](https://github.com/soulrose/instantlore/rel
 
 On first launch InstantLore downloads a small text-recognition model, so it needs an internet connection.
 
+**Updating:** click **Check for updates** at the bottom of the window (Mac: **Check for Updates…** in the menu). If a newer version is out, InstantLore offers to open its download page.
+
 ## How to use
 
-1. Click **Edit** next to **Capture area** and drag the yellow box ① over the game's subtitles. Drag the bottom-right corner to resize it.
+1. With a subtitle showing in the game, click **Auto** next to **Capture area** (or press **Ctrl+Alt+A**). InstantLore watches the screen for about 5 seconds, finds the subtitles and places the yellow box ① over them. Adjust it if needed, then click **Done**.
+   To place it by hand instead, click **Edit** and drag the box over the subtitles; drag the bottom-right corner to resize it.
 2. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation to appear.
 3. Click **Start translating**, or press **Ctrl+Alt+T**.
 
@@ -34,7 +45,7 @@ On the Mac, InstantLore lives in the menu bar (💬 icon) and asks for **Screen 
 
 ## Languages
 
-- **Interface:** English (default) or Thai. Switch it under **Interface** in the bottom-left corner (Windows) or **Interface language** in the menu (Mac).
+- **Interface:** English, Thai, Chinese or Japanese. It follows your system language on first launch (English if your system uses another language), and you can switch it any time under **Interface** in the bottom-left corner (Windows) or **Interface language** in the menu (Mac).
 - **Game language:** Auto detect, English, Japanese, Chinese (Simplified / Traditional), Korean, French, German, Spanish, Italian, Portuguese, Russian, Thai
 - **Translate to:** Thai, English, Japanese, Chinese, Korean, Vietnamese, Indonesian, Malay, Lao, Burmese, Khmer, French, Spanish
 
@@ -45,6 +56,7 @@ Korean, Russian and Thai use their own text-recognition model, downloaded the fi
 | Keys | Action |
 |---|---|
 | Ctrl+Alt+T | Start / stop translating |
+| Ctrl+Alt+A | Find the subtitles automatically (Windows) |
 | Ctrl+Alt+R | Edit the capture area (press again when done) |
 | Ctrl+Alt+M | Move / resize the subtitle box (press again when done) |
 | Ctrl+Alt+H | Show / hide the translated subtitles |

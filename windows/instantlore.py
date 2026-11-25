@@ -24,8 +24,22 @@ from pathlib import Path
 
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
-APP_VERSION = "1.2"
+APP_VERSION = "1.3"
 DEVELOPER = "Soulrose"
+REPO = "soulrose/instantlore"
+
+
+def version_tuple(v):
+    return tuple(int(x) for x in re.findall(r"\d+", v)[:3]) + (0,) * (3 - len(re.findall(r"\d+", v)[:3]))
+
+
+def latest_release():
+    """เวอร์ชันล่าสุดบน GitHub: (เลขเวอร์ชัน, ลิงก์หน้าดาวน์โหลด)"""
+    req = urllib.request.Request(f"https://api.github.com/repos/{REPO}/releases/latest",
+                                 headers={"Accept": "application/vnd.github+json", "User-Agent": APP_NAME})
+    with urllib.request.urlopen(req, timeout=8) as r:
+        data = json.loads(r.read().decode("utf-8"))
+    return data["tag_name"].lstrip("v"), data["html_url"]
 
 # ภาษาของเกม: (รหัส Google, ชื่ออังกฤษ, ชื่อไทย, ตัวอ่าน OCR เฉพาะภาษา หรือ None = ตัวหลายภาษาปกติ)
 SOURCE_LANGS = [
@@ -52,7 +66,33 @@ TARGET_LANGS = [
     ("lo", "Lao", "ลาว"), ("my", "Burmese", "พม่า"), ("km", "Khmer", "เขมร"),
     ("fr", "French", "ฝรั่งเศส"), ("es", "Spanish", "สเปน"),
 ]
-UI_LANGS = [("en", "English"), ("th", "ไทย")]
+UI_LANGS = [("en", "English"), ("th", "ไทย"), ("zh", "中文"), ("ja", "日本語")]
+# ชื่อภาษาในรายการ สำหรับหน้าโปรแกรมภาษาจีน/ญี่ปุ่น
+LANG_NAMES = {
+    "zh": {"auto": "自动检测", "en": "英语", "ja": "日语", "zh-CN": "中文（简体）", "zh-TW": "中文（繁体）",
+           "ko": "韩语", "fr": "法语", "de": "德语", "es": "西班牙语", "it": "意大利语", "pt": "葡萄牙语",
+           "ru": "俄语", "th": "泰语", "vi": "越南语", "id": "印尼语", "ms": "马来语", "lo": "老挝语",
+           "my": "缅甸语", "km": "高棉语"},
+    "ja": {"auto": "自動検出", "en": "英語", "ja": "日本語", "zh-CN": "中国語（簡体字）", "zh-TW": "中国語（繁体字）",
+           "ko": "韓国語", "fr": "フランス語", "de": "ドイツ語", "es": "スペイン語", "it": "イタリア語",
+           "pt": "ポルトガル語", "ru": "ロシア語", "th": "タイ語", "vi": "ベトナム語", "id": "インドネシア語",
+           "ms": "マレー語", "lo": "ラオ語", "my": "ビルマ語", "km": "クメール語"},
+}
+
+
+def system_ui_lang():
+    """ภาษาของเครื่อง ถ้าไม่ใช่ภาษาที่มีให้ ใช้อังกฤษ"""
+    code = ""
+    try:
+        if IS_WIN:
+            primary = ctypes.windll.kernel32.GetUserDefaultUILanguage() & 0x3FF
+            code = {0x1E: "th", 0x04: "zh", 0x11: "ja", 0x09: "en"}.get(primary, "")
+        else:
+            import locale
+            code = (os.environ.get("LC_ALL") or os.environ.get("LANG") or locale.getlocale()[0] or "")[:2].lower()
+    except Exception:
+        pass
+    return code if code in dict(UI_LANGS) else "en"
 
 # ข้อความในโปรแกรม (ภาษาอังกฤษเป็นค่าเริ่มต้น)
 STRINGS = {
@@ -61,7 +101,10 @@ STRINGS = {
         "sec_setup": "Setup",
         "capture": "Capture area", "capture_hint": "Drag it over the game's subtitles",
         "position": "Subtitle position", "position_hint": "Where the translation appears",
-        "edit": "Edit", "done": "Done",
+        "edit": "Edit", "done": "Done", "auto": "Auto",
+        "st_auto": "Looking for subtitles… keep one on screen",
+        "st_auto_found": "Found subtitles. Adjust the box if needed, then Done",
+        "st_auto_none": "No subtitles found. Show a line on screen and try again",
         "show_subs": "Show subtitles",
         "sec_lang": "Language", "game_lang": "Game language", "translate_to": "Translate to",
         "sec_style": "Subtitle style", "text_size": "Text size",
@@ -70,6 +113,10 @@ STRINGS = {
         "sec_scan": "Screen reading", "scan": "Read the screen", "fast": "Fast", "normal": "Normal",
         "light": "Light",
         "ui_lang": "Interface", "about": "About", "quit": "Quit",
+        "update": "Check for updates", "up_checking": "Checking for updates…",
+        "up_latest": "You have the latest version ({ver})", "up_title": "Update available",
+        "up_body": "InstantLore {new} is available. You have {cur}.", "up_download": "Download", "up_later": "Later",
+        "up_fail": "Couldn't check for updates: {e}",
         "ask": "Ask", "minimize": "Minimize",
         "close_title": "Close {app}?",
         "close_body": "Minimize keeps translating in the background.\nQuit stops the app completely.",
@@ -91,7 +138,10 @@ STRINGS = {
         "sec_setup": "ตั้งค่าพื้นที่",
         "capture": "กล่องอ่านซับ", "capture_hint": "ลากไปครอบซับในเกม",
         "position": "ตำแหน่งซับแปล", "position_hint": "ตำแหน่งที่คำแปลจะขึ้น",
-        "edit": "แก้ไข", "done": "เสร็จ",
+        "edit": "แก้ไข", "done": "เสร็จ", "auto": "อัตโนมัติ",
+        "st_auto": "กำลังหาซับ… ให้มีซับขึ้นอยู่บนจอ",
+        "st_auto_found": "เจอซับแล้ว ปรับกล่องได้ถ้าต้องการ แล้วกดเสร็จ",
+        "st_auto_none": "ไม่เจอซับ ให้มีซับขึ้นบนจอแล้วลองอีกครั้ง",
         "show_subs": "แสดงซับแปล",
         "sec_lang": "ภาษา", "game_lang": "ภาษาของเกม", "translate_to": "แปลเป็น",
         "sec_style": "รูปแบบซับ", "text_size": "ขนาดตัวอักษร",
@@ -100,6 +150,10 @@ STRINGS = {
         "sec_scan": "การอ่านหน้าจอ", "scan": "ความถี่", "fast": "เร็ว", "normal": "ปกติ",
         "light": "ประหยัด",
         "ui_lang": "ภาษาโปรแกรม", "about": "เกี่ยวกับ", "quit": "ปิดโปรแกรม",
+        "update": "ตรวจหาเวอร์ชันใหม่", "up_checking": "กำลังตรวจหาเวอร์ชันใหม่…",
+        "up_latest": "ใช้เวอร์ชันล่าสุดอยู่แล้ว ({ver})", "up_title": "มีเวอร์ชันใหม่",
+        "up_body": "InstantLore {new} ออกแล้ว ตอนนี้ใช้ {cur} อยู่", "up_download": "ดาวน์โหลด", "up_later": "ไว้ทีหลัง",
+        "up_fail": "ตรวจหาเวอร์ชันใหม่ไม่ได้: {e}",
         "ask": "ถาม", "minimize": "ย่อ",
         "close_title": "ปิด {app}?",
         "close_body": "ย่อ: โปรแกรมยังแปลต่ออยู่เบื้องหลัง\nปิดโปรแกรม: หยุดการทำงานทั้งหมด",
@@ -116,10 +170,84 @@ STRINGS = {
         "about_body": "{app} เวอร์ชัน {ver}\n\nผู้พัฒนา: {dev}\n\n"
                       "อ่านตัวหนังสือ: RapidOCR ทำงานในเครื่อง\nแปล: Google Translate (ต้องต่ออินเทอร์เน็ต)",
     },
+    "zh": {
+        "start": "开始翻译", "stop": "停止翻译",
+        "sec_setup": "区域设置",
+        "capture": "字幕读取区域", "capture_hint": "拖动框住游戏字幕",
+        "position": "译文位置", "position_hint": "译文显示的位置",
+        "edit": "编辑", "done": "完成", "auto": "自动",
+        "st_auto": "正在查找字幕…请保持字幕显示在屏幕上",
+        "st_auto_found": "已找到字幕。如有需要可调整框，然后点完成",
+        "st_auto_none": "未找到字幕。请让字幕显示在屏幕上后重试",
+        "show_subs": "显示译文",
+        "sec_lang": "语言", "game_lang": "游戏语言", "translate_to": "翻译为",
+        "sec_style": "字幕样式", "text_size": "字号",
+        "show_orig": "显示原文", "show_orig_hint": "原文显示在译文上方",
+        "bg_box": "背景框", "bg_box_hint": "关闭后文字改为描边",
+        "sec_scan": "屏幕读取", "scan": "读取频率", "fast": "快", "normal": "标准", "light": "省电",
+        "ui_lang": "界面语言", "about": "关于", "quit": "退出",
+        "update": "检查更新", "up_checking": "正在检查更新…",
+        "up_latest": "已是最新版本（{ver}）", "up_title": "有新版本",
+        "up_body": "InstantLore {new} 已发布，当前版本为 {cur}。", "up_download": "下载", "up_later": "以后再说",
+        "up_fail": "无法检查更新：{e}",
+        "ask": "询问", "minimize": "最小化",
+        "close_title": "关闭 {app}？",
+        "close_body": "最小化：在后台继续翻译。\n退出：完全关闭程序。",
+        "remember": "记住我的选择",
+        "st_loading": "正在加载文字识别…", "st_ready": "就绪",
+        "st_running": "翻译中", "st_stopped": "已停止",
+        "st_reload": "正在加载{lang}识别…", "st_error": "错误：{e}",
+        "st_ocr_fail": "无法加载文字识别：{e}",
+        "st_no_keys": "快捷键不可用，请使用此窗口",
+        "box_region": "① 字幕读取区域：拖动框住游戏字幕 · 完成后按 Ctrl+Alt+R",
+        "box_sub": "② 译文位置：拖动移动，拖动角落调整大小 · 完成后按 Ctrl+Alt+M",
+        "ph_tr": "译文将显示在这里", "ph_orig": "原文将显示在这里",
+        "about_title": "关于 {app}",
+        "about_body": "{app} {ver}\n\n开发者：{dev}\n\n"
+                      "文字识别：RapidOCR，在本机运行\n翻译：Google 翻译（需联网）",
+    },
+    "ja": {
+        "start": "翻訳を開始", "stop": "翻訳を停止",
+        "sec_setup": "エリア設定",
+        "capture": "字幕の読み取りエリア", "capture_hint": "ゲームの字幕に重ねてドラッグ",
+        "position": "翻訳の表示位置", "position_hint": "翻訳が表示される場所",
+        "edit": "編集", "done": "完了", "auto": "自動",
+        "st_auto": "字幕を探しています…字幕を画面に表示したままにしてください",
+        "st_auto_found": "字幕が見つかりました。必要なら枠を調整して完了を押してください",
+        "st_auto_none": "字幕が見つかりません。字幕を表示してからもう一度お試しください",
+        "show_subs": "翻訳を表示",
+        "sec_lang": "言語", "game_lang": "ゲームの言語", "translate_to": "翻訳先",
+        "sec_style": "字幕のスタイル", "text_size": "文字サイズ",
+        "show_orig": "原文を表示", "show_orig_hint": "翻訳の上に原文を表示",
+        "bg_box": "背景ボックス", "bg_box_hint": "オフ：縁取り文字で表示",
+        "sec_scan": "画面の読み取り", "scan": "読み取り頻度", "fast": "高速", "normal": "標準", "light": "省電力",
+        "ui_lang": "表示言語", "about": "情報", "quit": "終了",
+        "update": "アップデートを確認", "up_checking": "アップデートを確認中…",
+        "up_latest": "最新バージョンです（{ver}）", "up_title": "新しいバージョンがあります",
+        "up_body": "InstantLore {new} が公開されています。現在のバージョンは {cur} です。", "up_download": "ダウンロード", "up_later": "後で",
+        "up_fail": "アップデートを確認できません：{e}",
+        "ask": "確認", "minimize": "最小化",
+        "close_title": "{app} を閉じますか？",
+        "close_body": "最小化：バックグラウンドで翻訳を続けます。\n終了：アプリを完全に終了します。",
+        "remember": "この選択を記憶する",
+        "st_loading": "文字認識を読み込み中…", "st_ready": "準備完了",
+        "st_running": "翻訳中", "st_stopped": "停止中",
+        "st_reload": "{lang}の認識を読み込み中…", "st_error": "エラー：{e}",
+        "st_ocr_fail": "文字認識を読み込めません：{e}",
+        "st_no_keys": "ショートカットが使えません。このウィンドウを使ってください",
+        "box_region": "① 読み取りエリア：ゲームの字幕に重ねてドラッグ · 完了したら Ctrl+Alt+R",
+        "box_sub": "② 翻訳の表示位置：ドラッグで移動、角でサイズ変更 · 完了したら Ctrl+Alt+M",
+        "ph_tr": "ここに翻訳が表示されます", "ph_orig": "ここに原文が表示されます",
+        "about_title": "{app} について",
+        "about_body": "{app} {ver}\n\n開発者：{dev}\n\n"
+                      "文字認識：RapidOCR（このPCで動作）\n翻訳：Google 翻訳（インターネット接続が必要）",
+    }
 }
 
 
 def lang_name(table, code, ui):
+    if ui in LANG_NAMES and code in LANG_NAMES[ui]:
+        return LANG_NAMES[ui][code]
     for row in table:
         if row[0] == code:
             return row[2] if ui == "th" else row[1]
@@ -153,7 +281,7 @@ DEFAULTS = {
     "interval": 0.5,
     "src_lang": "en",   # ภาษาของเกม
     "dst_lang": "th",   # ภาษาที่จะแปลเป็น
-    "ui_lang": "en",    # ภาษาของโปรแกรม: en / th
+    "ui_lang": "",      # ภาษาของโปรแกรม: en / th / zh / ja, ว่าง = ตามภาษาของเครื่อง
     "close_action": "ask",  # กดปุ่ม X: ask = ถามทุกครั้ง, minimize = ย่อ, quit = ปิดโปรแกรม
 }
 KEY = "#010203"  # สีนี้จะโปร่งใส
@@ -248,6 +376,7 @@ class OCR:
         else:
             params["Rec.model_type"] = ModelType.SMALL if src_lang in self.NEEDS_SMALL_REC else ModelType.TINY
         self.engine = RapidOCR(params=params)
+        self.lock = threading.Lock()  # ค้นหาซับอัตโนมัติกับการแปลใช้ตัวอ่านเดียวกัน
         self.last_thumb = None
         self.last_text = ""
 
@@ -266,8 +395,22 @@ class OCR:
         self.last_text = self._read(bgr)
         return self.last_text
 
+    def lines(self, bgr, min_score=0.6):
+        """ข้อความทุกบรรทัดในภาพ: [(x0, y0, x1, y1, text)]"""
+        with self.lock:
+            out = self.engine(bgr)
+        if out.txts is None:
+            return []
+        res = []
+        for box, txt, score in zip(out.boxes, out.txts, out.scores):
+            if score >= min_score:
+                xs, ys = [p[0] for p in box], [p[1] for p in box]
+                res.append((min(xs), min(ys), max(xs), max(ys), txt))
+        return res
+
     def _read(self, bgr):
-        out = self.engine(bgr)
+        with self.lock:
+            out = self.engine(bgr)
         if out.txts is None or len(out.txts) == 0:
             return ""
         items = []
@@ -319,6 +462,60 @@ class Translator:
                          {"client": "dict-chrome-ex", "sl": sl, "tl": tl, "q": text})
         first = data[0]
         return first if isinstance(first, str) else first[0]
+
+
+def find_subtitle_region(frames, W, H, exclude=()):
+    """หาตำแหน่งซับจากภาพจอหลายเฟรม
+
+    frames: [[(x0, y0, x1, y1, text), ...] ต่อเฟรม] เป็นพิกัดบนจอ
+    ซับมักอยู่ครึ่งล่าง ค่อนกลางจอ มีหลายคำ และข้อความเปลี่ยนไปเรื่อยๆ (ต่างจาก HUD ที่นิ่ง)
+    คืน [x, y, w, h] ของกล่องอ่านซับ หรือ None ถ้าหาไม่เจอ
+    """
+    def wordy(t):
+        t = t.strip()
+        return len(t.split()) >= 2 or (len(t) >= 4 and not t.isascii())
+
+    def blocked(b):
+        return any(b[0] < ex + ew and b[2] > ex and b[1] < ey + eh and b[3] > ey for ex, ey, ew, eh in exclude)
+
+    cands = []  # (frame index, box)
+    for i, boxes in enumerate(frames):
+        for b in boxes:
+            cx, cy, bh = (b[0] + b[2]) / 2, (b[1] + b[3]) / 2, b[3] - b[1]
+            if cy > H * 0.45 and W * 0.2 < cx < W * 0.8 and 0 < bh < H * 0.12 and wordy(b[4]) and not blocked(b):
+                cands.append((i, b))
+    if not cands:
+        return None
+
+    # บรรทัดที่ข้อความเปลี่ยนระหว่างเฟรม = น่าจะเป็นซับ
+    def same_band(a, b):
+        return min(a[3], b[3]) - max(a[1], b[1]) > 0.5 * min(a[3] - a[1], b[3] - b[1])
+    varied = [(i, b) for i, b in cands
+              if any(j != i and same_band(b, c) and norm(c[4]) != norm(b[4]) for j, c in cands)]
+    if varied:
+        chosen = [b for _, b in varied]
+    else:
+        # ไม่มีบรรทัดไหนเปลี่ยน: เชื่อเฉพาะข้อความชิดล่างจอ (ปุ่มกด/คำแนะนำกลางจอมักนิ่ง ไม่ใช่ซับ)
+        chosen = [b for _, b in cands if (b[1] + b[3]) / 2 > H * 0.7]
+        if not chosen:
+            return None
+
+    # ตัดบรรทัดที่อยู่ห่างกลุ่มหลักทิ้ง
+    hs = sorted(b[3] - b[1] for b in chosen)
+    lh = hs[len(hs) // 2]
+    cys = sorted((b[1] + b[3]) / 2 for b in chosen)
+    mid = cys[len(cys) // 2]
+    chosen = [b for b in chosen if abs((b[1] + b[3]) / 2 - mid) <= 3 * lh]
+
+    x0, y0 = min(b[0] for b in chosen), min(b[1] for b in chosen)
+    x1, y1 = max(b[2] for b in chosen), max(b[3] for b in chosen)
+    # เผื่อซับยาวขึ้น / ขึ้น 2 บรรทัด
+    w = max(x1 - x0 + 2 * lh, W * 0.5)
+    h = max(y1 - y0 + 1.6 * lh, 2.6 * lh)
+    cx = (x0 + x1) / 2
+    x = min(max(0, cx - w / 2), W - w)
+    y = min(max(0, y0 - lh), H - h)
+    return [int(x), int(y), int(w), int(h)]
 
 
 def norm(s):
@@ -691,8 +888,11 @@ class App:
             self.toggle_region()
             self.toggle_sub()
 
+    def ui(self):
+        return self.cfg.get("ui_lang") or system_ui_lang()
+
     def t(self, key, **kw):
-        ui = self.cfg.get("ui_lang", "en")
+        ui = self.ui()
         text = STRINGS.get(ui, STRINGS["en"]).get(key) or STRINGS["en"][key]
         return text.format(**kw) if kw else text
 
@@ -702,7 +902,7 @@ class App:
         for w in r.winfo_children():
             if not isinstance(w, tk.Toplevel):
                 w.destroy()
-        ui = self.cfg.get("ui_lang", "en")
+        ui = self.ui()
         body = tk.Frame(r, bg=C["bg"], padx=18, pady=16)
         body.pack(fill="both")
 
@@ -740,6 +940,7 @@ class App:
 
         card = section("sec_setup", left)
         row = card.row(self.t("capture"), self.t("capture_hint"), "Ctrl+Alt+R")
+        Button(row, self.t("auto"), self.auto_detect, pad=(12, 4)).pack(side="left", padx=(0, 6))
         self.region_btn = Button(row, self.t("done" if self.region.editing else "edit"), self.toggle_region, pad=(12, 4))
         self.region_btn.pack(side="left")
         row = card.row(self.t("position"), self.t("position_hint"), "Ctrl+Alt+M")
@@ -779,6 +980,7 @@ class App:
         Segmented(foot, UI_LANGS, ui, self.set_ui_lang).pack(side="left", padx=8)
         Button(foot, self.t("quit"), self.quit, kind="ghost", pad=(4, 2)).pack(side="right")
         Button(foot, self.t("about"), self.about, kind="ghost", pad=(4, 2)).pack(side="right", padx=(0, 12))
+        Button(foot, self.t("update"), self.check_update, kind="ghost", pad=(4, 2)).pack(side="right", padx=(0, 12))
 
         self.paint_status()
         self.region.title, self.sub.title = self.t("box_region"), self.t("box_sub")
@@ -797,6 +999,62 @@ class App:
         col = {"good": C["good"], "bad": C["bad"], "ready": C["accent"]}.get(tone, C["faint"])
         self.dot.create_oval(2, 2, 10, 10, fill=col, outline=col)
 
+    def check_update(self):
+        self.set_status("up_checking")
+
+        def run():
+            try:
+                new, url = latest_release()
+                self.ui_q.put(("call", lambda: self._update_result(new, url)))
+            except Exception as e:
+                self.ui_q.put(("status", ("up_fail", "bad", {"e": e})))
+        threading.Thread(target=run, daemon=True).start()
+
+    def _update_result(self, new, url):
+        if version_tuple(new) <= version_tuple(APP_VERSION):
+            self.set_status("up_latest", "good", ver=APP_VERSION)
+            return
+        self.paint_status_idle()
+        import webbrowser
+        self.dialog(self.t("up_title"), self.t("up_body", new=new, cur=APP_VERSION),
+                    [(self.t("up_later"), None, "secondary"),
+                     (self.t("up_download"), lambda: webbrowser.open(url), "primary")])
+
+    def paint_status_idle(self):
+        self.set_status("st_running" if self.running else "st_ready", "good" if self.running else "ready")
+
+    def dialog(self, title, body, buttons):
+        """กล่องข้อความตามธีมของโปรแกรม: buttons = [(ข้อความ, คำสั่ง, primary/secondary)] เรียงซ้ายไปขวา"""
+        r = self.root
+        r.attributes("-topmost", False)
+        d = tk.Toplevel(r, bg=C["bg"], padx=22, pady=18)
+        d.bind("<Destroy>", lambda e: e.widget is d and r.winfo_exists() and r.attributes("-topmost", True))
+        d.title(APP_NAME)
+        d.resizable(False, False)
+        d.transient(r)
+        d.attributes("-topmost", True)
+        tk.Label(d, text=title, bg=C["bg"], fg=C["text"], font=F(13, "bold")).pack(anchor="w")
+        tk.Label(d, text=body, bg=C["bg"], fg=C["muted"], font=F(10), justify="left",
+                 wraplength=380).pack(anchor="w", pady=(6, 0))
+        bar = tk.Frame(d, bg=C["bg"])
+        bar.pack(fill="x", pady=(18, 0))
+
+        def press(fn):
+            d.destroy()
+            if fn:
+                fn()
+        for text, fn, kind in reversed(buttons):
+            Button(bar, text, lambda fn=fn: press(fn), kind=kind, pad=(18, 6)).pack(side="right", padx=(10, 0))
+        d.bind("<Escape>", lambda e: d.destroy())
+        d.update_idletasks()
+        x = r.winfo_rootx() + (r.winfo_width() - d.winfo_width()) // 2
+        y = r.winfo_rooty() + (r.winfo_height() - d.winfo_height()) // 3
+        d.geometry(f"+{max(0, x)}+{max(0, y)}")
+        d.lift()
+        d.grab_set()
+        self.last_dialog = d
+        return d
+
     def about(self):
         from tkinter import messagebox
         messagebox.showinfo(self.t("about_title", app=APP_NAME),
@@ -810,7 +1068,7 @@ class App:
             self.set_status("st_no_keys", "bad")
             return
         keys = {
-            "ctrl+alt+t": self.toggle_run, "ctrl+alt+r": self.toggle_region,
+            "ctrl+alt+t": self.toggle_run, "ctrl+alt+r": self.toggle_region, "ctrl+alt+a": self.auto_detect,
             "ctrl+alt+m": self.toggle_sub, "ctrl+alt+h": self.toggle_hide,
             "ctrl+alt+e": lambda: self.set_english(not self.cfg["show_english"]),
             "ctrl+alt+b": lambda: self.set_box(not self.cfg["bg_box"]),
@@ -825,6 +1083,58 @@ class App:
         self.cfg["region"] = self.region.rect()
         self.cfg["sub"] = self.sub.rect()
         save_config(self.cfg)
+
+    def auto_detect(self):
+        """จับภาพทั้งจอ ~5 วิ แล้วหาว่าซับอยู่ตรงไหน"""
+        if self.ocr is None or getattr(self, "detecting", False):
+            return
+        self.detecting = True
+        if self.running:
+            self.toggle_run()
+        if self.region.editing:
+            self.toggle_region()
+        self.set_status("st_auto", "ready")
+        r = self.root
+        # ไม่นับข้อความในหน้าต่างโปรแกรมเอง และในกล่องซับแปล
+        exclude = [(r.winfo_rootx(), r.winfo_rooty(), r.winfo_width(), r.winfo_height()), tuple(self.sub.rect())]
+        threading.Thread(target=self._detect_worker, args=(exclude,), daemon=True).start()
+
+    def _detect_worker(self, exclude):
+        import mss
+        import numpy as np
+        region = None
+        try:
+            with mss.mss() as sct:
+                mon = sct.monitors[1]
+                W, H, top = mon["width"], mon["height"], int(mon["height"] * 0.4)
+                f = max(1, -(-W // 1600))  # ย่อภาพให้กว้างไม่เกิน ~1600 px
+                frames = []
+                for _ in range(10):
+                    shot = np.asarray(sct.grab({"left": mon["left"], "top": mon["top"] + top,
+                                                "width": W, "height": H - top}))[::f, ::f, :3]
+                    boxes = self.ocr.lines(np.ascontiguousarray(shot))
+                    frames.append([(x0 * f, y0 * f + top, x1 * f, y1 * f + top, t) for x0, y0, x1, y1, t in boxes])
+                    time.sleep(0.45)
+                ex = [(x - mon["left"], y - mon["top"], w, h) for x, y, w, h in exclude]
+                found = find_subtitle_region(frames, W, H, ex)
+                if found:
+                    region = [found[0] + mon["left"], found[1] + mon["top"], found[2], found[3]]
+        except Exception as e:
+            self.ui_q.put(("status", ("st_error", "bad", {"e": e})))
+        self.ui_q.put(("call", lambda: self._detect_done(region)))
+
+    def _detect_done(self, region):
+        self.detecting = False
+        if not region:
+            self.set_status("st_auto_none", "bad")
+            return
+        x, y, w, h = region
+        self.region.win.geometry(f"{w}x{h}+{x}+{y}")
+        self.cfg["region"] = region
+        save_config(self.cfg)
+        if not self.region.editing:
+            self.toggle_region()  # โชว์กล่องให้ดู ปรับต่อได้ กดเสร็จเมื่อพอใจ
+        self.set_status("st_auto_found", "good")
 
     def toggle_region(self):
         on = not self.region.editing
@@ -893,7 +1203,7 @@ class App:
         save_config(self.cfg)
         if need_reload:
             self.ocr_ready = False
-            self.set_status("st_reload", lang=lang_name(SOURCE_LANGS, src, self.cfg.get("ui_lang", "en")))
+            self.set_status("st_reload", lang=lang_name(SOURCE_LANGS, src, self.ui()))
             threading.Thread(target=self.load_ocr, daemon=True).start()
 
     def toggle_run(self):

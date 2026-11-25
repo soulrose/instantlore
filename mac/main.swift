@@ -11,17 +11,122 @@ import Translation
 // MARK: - App info / languages
 
 let appName = "InstantLore"
-let appVersion = "1.2"
+let appVersion = "1.3"
 let developer = "Soulrose"
 
 /// code = รหัส Google, vision = ภาษาสำหรับ OCR ([] = ตรวจอัตโนมัติ), apple = รหัส Apple Translation (nil = ใช้ไม่ได้)
 struct Lang {
     let code: String; let en: String; let th: String; let vision: [String]; let apple: String?
-    var name: String { L(en, th) }
+    var name: String { L(en, th, zh: langNamesZH[code], ja: langNamesJA[code]) }
 }
 
-/// ข้อความในโปรแกรม: ภาษาอังกฤษเป็นค่าเริ่มต้น เปลี่ยนเป็นไทยได้ในเมนู
-func L(_ en: String, _ th: String) -> String { Settings.uiLang == "th" ? th : en }
+/// ข้อความในโปรแกรม: เริ่มต้นตามภาษาของเครื่อง (ไม่ใช่ภาษาที่มีให้ = อังกฤษ) เปลี่ยนได้ในเมนู
+/// จีน/ญี่ปุ่น: ส่ง zh:/ja: มาเอง หรือหาจากตาราง ZH / JA ด้วยข้อความภาษาอังกฤษ
+func L(_ en: String, _ th: String, zh: String? = nil, ja: String? = nil) -> String {
+    switch Settings.uiLang {
+    case "th": return th
+    case "zh": return zh ?? ZH[en] ?? en
+    case "ja": return ja ?? JA[en] ?? en
+    default: return en
+    }
+}
+
+let uiLangs: [(String, String)] = [("en", "English"), ("th", "ไทย"), ("zh", "中文"), ("ja", "日本語")]
+
+func systemUILang() -> String {
+    let code = String((Locale.preferredLanguages.first ?? "en").prefix(2))
+    return uiLangs.contains { $0.0 == code } ? code : "en"
+}
+
+let ZH: [String: String] = [
+    "About InstantLore": "关于 InstantLore",
+    "Allow Screen Recording, then reopen the app": "请允许“屏幕录制”，然后重新打开应用",
+    "Apple (offline, private)": "Apple（离线，不上传数据）",
+    "Background box": "背景框",
+    "Couldn't find the screen to capture": "找不到要截取的屏幕",
+    "Edit capture area": "编辑字幕读取区域",
+    "Edit subtitle position": "编辑译文位置",
+    "Fast": "快",
+    "Game language": "游戏语言",
+    "Google (online) will be used instead.": "将改用 Google（在线）。",
+    "Google (online)": "Google（在线）",
+    "Interface language": "界面语言",
+    "Larger text": "放大文字",
+    "Light": "省电",
+    "Normal": "标准",
+    "OK": "好",
+    "Open Settings": "打开设置",
+    "Original subtitle appears here": "原文将显示在这里",
+    "Quit": "退出",
+    "Screen reading": "屏幕读取",
+    "Show original text": "显示原文",
+    "Show subtitles": "显示译文",
+    "Smaller text": "缩小文字",
+    "Start translating": "开始翻译",
+    "Stop translating": "停止翻译",
+    "Stopped": "已停止",
+    "Text size": "字号",
+    "The capture area is not on any screen": "字幕读取区域不在任何屏幕上",
+    "Translate to": "翻译为",
+    "Translated subtitle appears here": "译文将显示在这里",
+    "Translator": "翻译引擎",
+    "Unexpected reply from Google": "Google 返回了异常结果",
+    "Use Google for now": "暂时使用 Google",
+    "① Capture area: drag over the game's subtitles · ⌃⌥R when done": "① 字幕读取区域：拖动框住游戏字幕 · 完成后按 ⌃⌥R",
+    "② Subtitle position: drag to move, corner to resize · ⌃⌥M when done": "② 译文位置：拖动移动，拖动角落调整大小 · 完成后按 ⌃⌥M",
+    "● Translating": "● 翻译中"
+]
+
+let JA: [String: String] = [
+    "About InstantLore": "InstantLore について",
+    "Allow Screen Recording, then reopen the app": "画面収録を許可してから、アプリを開き直してください",
+    "Apple (offline, private)": "Apple（オフライン・データ送信なし）",
+    "Background box": "背景ボックス",
+    "Couldn't find the screen to capture": "キャプチャする画面が見つかりません",
+    "Edit capture area": "読み取りエリアを編集",
+    "Edit subtitle position": "翻訳の表示位置を編集",
+    "Fast": "高速",
+    "Game language": "ゲームの言語",
+    "Google (online) will be used instead.": "代わりに Google（オンライン）を使います。",
+    "Google (online)": "Google（オンライン）",
+    "Interface language": "表示言語",
+    "Larger text": "文字を大きく",
+    "Light": "省電力",
+    "Normal": "標準",
+    "OK": "OK",
+    "Open Settings": "設定を開く",
+    "Original subtitle appears here": "ここに原文が表示されます",
+    "Quit": "終了",
+    "Screen reading": "画面の読み取り",
+    "Show original text": "原文を表示",
+    "Show subtitles": "翻訳を表示",
+    "Smaller text": "文字を小さく",
+    "Start translating": "翻訳を開始",
+    "Stop translating": "翻訳を停止",
+    "Stopped": "停止中",
+    "Text size": "文字サイズ",
+    "The capture area is not on any screen": "読み取りエリアがどの画面にもありません",
+    "Translate to": "翻訳先",
+    "Translated subtitle appears here": "ここに翻訳が表示されます",
+    "Translator": "翻訳エンジン",
+    "Unexpected reply from Google": "Google から予期しない応答がありました",
+    "Use Google for now": "今は Google を使う",
+    "① Capture area: drag over the game's subtitles · ⌃⌥R when done": "① 読み取りエリア：ゲームの字幕に重ねてドラッグ · 完了したら ⌃⌥R",
+    "② Subtitle position: drag to move, corner to resize · ⌃⌥M when done": "② 翻訳の表示位置：ドラッグで移動、角でサイズ変更 · 完了したら ⌃⌥M",
+    "● Translating": "● 翻訳中"
+]
+
+let langNamesZH: [String: String] = [
+    "auto": "自动检测", "en": "英语", "ja": "日语", "zh-CN": "中文（简体）", "zh-TW": "中文（繁体）", "ko": "韩语",
+    "fr": "法语", "de": "德语", "es": "西班牙语", "it": "意大利语", "pt": "葡萄牙语", "ru": "俄语", "th": "泰语",
+    "vi": "越南语", "id": "印尼语", "ms": "马来语", "lo": "老挝语", "my": "缅甸语", "km": "高棉语",
+]
+let langNamesJA: [String: String] = [
+    "auto": "自動検出", "en": "英語", "ja": "日本語", "zh-CN": "中国語（簡体字）", "zh-TW": "中国語（繁体字）",
+    "ko": "韓国語", "fr": "フランス語", "de": "ドイツ語", "es": "スペイン語", "it": "イタリア語", "pt": "ポルトガル語",
+    "ru": "ロシア語", "th": "タイ語", "vi": "ベトナム語", "id": "インドネシア語", "ms": "マレー語", "lo": "ラオ語",
+    "my": "ビルマ語", "km": "クメール語",
+]
 
 let sourceLangs: [Lang] = [
     Lang(code: "auto", en: "Auto detect", th: "อัตโนมัติ", vision: [], apple: nil),
@@ -86,7 +191,7 @@ enum Settings {
         set { d.set(newValue, forKey: "showBox") }
     }
     static var uiLang: String {
-        get { d.string(forKey: "uiLang") ?? "en" }
+        get { d.string(forKey: "uiLang") ?? systemUILang() }
         set { d.set(newValue, forKey: "uiLang") }
     }
     static var srcLang: String {
@@ -622,7 +727,7 @@ enum HotKeys {
         m.addItem(intRoot)
 
         let uiMenu = NSMenu()
-        for (code, name) in [("en", "English"), ("th", "ไทย")] {
+        for (code, name) in uiLangs {
             let it = add(uiMenu, name, #selector(pickUILang(_:)))
             it.representedObject = code
             it.state = Settings.uiLang == code ? .on : .off
@@ -632,6 +737,7 @@ enum HotKeys {
         m.addItem(uiRoot)
 
         m.addItem(.separator())
+        add(m, L("Check for Updates…", "ตรวจหาเวอร์ชันใหม่…", zh: "检查更新…", ja: "アップデートを確認…"), #selector(checkUpdate))
         add(m, L("About \(appName)", "เกี่ยวกับ \(appName)"), #selector(about))
         add(m, L("Quit", "ออก"), #selector(quit), key: "")
         statusItem.menu = m
@@ -681,11 +787,54 @@ enum HotKeys {
     }
     @objc func quit() { NSApp.terminate(nil) }
 
+    /// ถามเวอร์ชันล่าสุดจากหน้า Releases บน GitHub ถ้าใหม่กว่าให้เปิดหน้าดาวน์โหลด
+    @objc func checkUpdate() {
+        Task { @MainActor in
+            var req = URLRequest(url: URL(string: "https://api.github.com/repos/soulrose/instantlore/releases/latest")!)
+            req.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+            req.timeoutInterval = 8
+            let a = NSAlert()
+            do {
+                let (data, _) = try await URLSession.shared.data(for: req)
+                guard let obj = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                      let tag = obj["tag_name"] as? String, let page = obj["html_url"] as? String,
+                      let url = URL(string: page) else { throw URLError(.badServerResponse) }
+                let latest = tag.hasPrefix("v") ? String(tag.dropFirst()) : tag
+                func parts(_ v: String) -> [Int] { (v.split(separator: ".").compactMap { Int($0) } + [0, 0, 0]).prefix(3).map { $0 } }
+                if parts(latest).lexicographicallyPrecedes(parts(appVersion)) || parts(latest) == parts(appVersion) {
+                    a.messageText = L("You have the latest version (\(appVersion))", "ใช้เวอร์ชันล่าสุดอยู่แล้ว (\(appVersion))",
+                                      zh: "已是最新版本（\(appVersion)）", ja: "最新バージョンです（\(appVersion)）")
+                    a.addButton(withTitle: L("OK", "ตกลง"))
+                    NSApp.activate()
+                    a.runModal()
+                    return
+                }
+                a.messageText = L("Update available", "มีเวอร์ชันใหม่", zh: "有新版本", ja: "新しいバージョンがあります")
+                a.informativeText = L("\(appName) \(latest) is available. You have \(appVersion).",
+                                      "\(appName) \(latest) ออกแล้ว ตอนนี้ใช้ \(appVersion) อยู่",
+                                      zh: "\(appName) \(latest) 已发布，当前版本为 \(appVersion)。",
+                                      ja: "\(appName) \(latest) が公開されています。現在のバージョンは \(appVersion) です。")
+                a.addButton(withTitle: L("Download", "ดาวน์โหลด", zh: "下载", ja: "ダウンロード"))
+                a.addButton(withTitle: L("Later", "ไว้ทีหลัง", zh: "以后再说", ja: "後で"))
+                NSApp.activate()
+                if a.runModal() == .alertFirstButtonReturn { NSWorkspace.shared.open(url) }
+            } catch {
+                a.messageText = L("Couldn't check for updates", "ตรวจหาเวอร์ชันใหม่ไม่ได้", zh: "无法检查更新", ja: "アップデートを確認できません")
+                a.informativeText = error.localizedDescription
+                a.addButton(withTitle: L("OK", "ตกลง"))
+                NSApp.activate()
+                a.runModal()
+            }
+        }
+    }
+
     @objc func about() {
         let a = NSAlert()
         a.messageText = "\(appName) \(appVersion)"
         a.informativeText = L("Developed by \(developer)\n\nText reading: Apple Vision, on this Mac\nTranslation: Apple Translation or Google Translate",
-                              "ผู้พัฒนา: \(developer)\n\nอ่านตัวหนังสือ: Apple Vision ทำงานในเครื่อง\nแปล: Apple Translation หรือ Google Translate")
+                              "ผู้พัฒนา: \(developer)\n\nอ่านตัวหนังสือ: Apple Vision ทำงานในเครื่อง\nแปล: Apple Translation หรือ Google Translate",
+                              zh: "开发者：\(developer)\n\n文字识别：Apple Vision，在本机运行\n翻译：Apple 翻译或 Google 翻译",
+                              ja: "開発者：\(developer)\n\n文字認識：Apple Vision（この Mac で動作）\n翻訳：Apple 翻訳または Google 翻訳")
         a.addButton(withTitle: L("OK", "ตกลง"))
         NSApp.activate()
         a.runModal()
@@ -719,7 +868,8 @@ enum HotKeys {
         if e == .apple, !(await AppleTranslator.isInstalled(src, dst)) {
             let a = NSAlert()
             if src.apple == nil || dst.apple == nil {
-                a.messageText = L("Apple can't translate \(src.name) → \(dst.name) offline", "Apple แปลคู่ภาษา \(src.name) → \(dst.name) แบบออฟไลน์ไม่ได้")
+                a.messageText = L("Apple can't translate \(src.name) → \(dst.name) offline", "Apple แปลคู่ภาษา \(src.name) → \(dst.name) แบบออฟไลน์ไม่ได้",
+                                zh: "Apple 无法离线翻译 \(src.name) → \(dst.name)", ja: "Apple は \(src.name) → \(dst.name) をオフラインで翻訳できません")
                 a.informativeText = L("Google (online) will be used instead.", "จะใช้ Google (ออนไลน์) แทน")
                 a.addButton(withTitle: L("OK", "ตกลง"))
                 NSApp.activate()
@@ -727,9 +877,12 @@ enum HotKeys {
                 e = .google
                 return await finishEngine(e)
             }
-            a.messageText = L("\(src.name) / \(dst.name) isn't downloaded for offline translation", "ยังไม่ได้ดาวน์โหลดภาษา \(src.name) / \(dst.name) สำหรับแปลออฟไลน์")
+            a.messageText = L("\(src.name) / \(dst.name) isn't downloaded for offline translation", "ยังไม่ได้ดาวน์โหลดภาษา \(src.name) / \(dst.name) สำหรับแปลออฟไลน์",
+                              zh: "尚未下载 \(src.name) / \(dst.name) 离线翻译语言", ja: "\(src.name) / \(dst.name) のオフライン翻訳用言語がダウンロードされていません")
             a.informativeText = L("Open System Settings → General → Language & Region → Translation Languages… and download both languages.\n\nGoogle (online) will be used until then.",
-                                  "ไปที่ System Settings → General → Language & Region → Translation Languages… แล้วดาวน์โหลดทั้งสองภาษา\n\nระหว่างนี้จะใช้ Google (ออนไลน์) ไปก่อน")
+                                  "ไปที่ System Settings → General → Language & Region → Translation Languages… แล้วดาวน์โหลดทั้งสองภาษา\n\nระหว่างนี้จะใช้ Google (ออนไลน์) ไปก่อน",
+                                  zh: "请打开“系统设置 → 通用 → 语言与地区 → 翻译语言…”并下载这两种语言。\n\n在此之前将使用 Google（在线）。",
+                                  ja: "システム設定 → 一般 → 言語と地域 → 翻訳言語… を開き、両方の言語をダウンロードしてください。\n\nそれまでは Google（オンライン）を使います。")
             a.addButton(withTitle: L("Open Settings", "เปิด Settings"))
             a.addButton(withTitle: L("Use Google for now", "ใช้ Google ไปก่อน"))
             NSApp.activate()
