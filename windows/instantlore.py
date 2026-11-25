@@ -24,7 +24,7 @@ from pathlib import Path
 
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
-APP_VERSION = "1.3.1"
+APP_VERSION = "1.4.0"
 DEVELOPER = "Soulrose"
 REPO = "soulrose/instantlore"
 
@@ -126,6 +126,11 @@ STRINGS = {
         "st_reload": "Loading reader for {lang}…", "st_error": "Error: {e}",
         "st_ocr_fail": "Couldn't load the text reader: {e}",
         "st_no_keys": "Hotkeys unavailable, use this window",
+        "source": "Subtitles from", "source_hint_screen": "Reads the subtitles on screen", "source_hint_listen": "Listens to speech with Windows Live Captions",
+        "src_screen": "Screen", "src_listen": "Listen",
+        "st_listen": "Listening", "st_lc_start": "Starting Live Captions…",
+        "st_lc_missing": "Listen mode needs Windows 11 (22H2 or later) with Live Captions",
+        "st_lc_fail": "Couldn't read Live Captions: {e}",
         "box_keys": "Ctrl+Alt+arrows: move · Ctrl+Alt+Shift+arrows: resize",
         "st_black": "Can't see the game. Set it to Borderless or Windowed fullscreen",
         "box_region": "① Capture area: drag over the game's subtitles · Ctrl+Alt+R when done",
@@ -165,6 +170,11 @@ STRINGS = {
         "st_reload": "กำลังโหลดตัวอ่านภาษา{lang}…", "st_error": "ผิดพลาด: {e}",
         "st_ocr_fail": "โหลดตัวอ่านข้อความไม่ได้: {e}",
         "st_no_keys": "ปุ่มลัดใช้ไม่ได้ ใช้ปุ่มในหน้าต่างนี้แทน",
+        "source": "แปลจาก", "source_hint_screen": "อ่านซับที่ขึ้นบนจอ", "source_hint_listen": "ฟังเสียงพูดผ่าน Live Captions ของ Windows",
+        "src_screen": "จอ", "src_listen": "เสียง",
+        "st_listen": "กำลังฟัง", "st_lc_start": "กำลังเปิด Live Captions…",
+        "st_lc_missing": "โหมดฟังเสียงต้องใช้ Windows 11 (22H2 ขึ้นไป) ที่มี Live Captions",
+        "st_lc_fail": "อ่าน Live Captions ไม่ได้: {e}",
         "box_keys": "Ctrl+Alt+ลูกศร: เลื่อน · Ctrl+Alt+Shift+ลูกศร: ปรับขนาด",
         "st_black": "มองไม่เห็นเกม ให้ตั้งเกมเป็น Borderless หรือ Windowed fullscreen",
         "box_region": "① กล่องอ่านซับ: ลากครอบซับในเกม · กด Ctrl+Alt+R เมื่อเสร็จ",
@@ -203,6 +213,11 @@ STRINGS = {
         "st_reload": "正在加载{lang}识别…", "st_error": "错误：{e}",
         "st_ocr_fail": "无法加载文字识别：{e}",
         "st_no_keys": "快捷键不可用，请使用此窗口",
+        "source": "字幕来源", "source_hint_screen": "读取屏幕上的字幕", "source_hint_listen": "通过 Windows 实时辅助字幕收听语音",
+        "src_screen": "屏幕", "src_listen": "语音",
+        "st_listen": "正在收听", "st_lc_start": "正在启动实时辅助字幕…",
+        "st_lc_missing": "语音模式需要带实时辅助字幕的 Windows 11（22H2 或更高版本）",
+        "st_lc_fail": "无法读取实时辅助字幕：{e}",
         "box_keys": "Ctrl+Alt+方向键：移动 · Ctrl+Alt+Shift+方向键：调整大小",
         "st_black": "看不到游戏画面。请将游戏设为无边框或窗口化全屏",
         "box_region": "① 字幕读取区域：拖动框住游戏字幕 · 完成后按 Ctrl+Alt+R",
@@ -241,6 +256,11 @@ STRINGS = {
         "st_reload": "{lang}の認識を読み込み中…", "st_error": "エラー：{e}",
         "st_ocr_fail": "文字認識を読み込めません：{e}",
         "st_no_keys": "ショートカットが使えません。このウィンドウを使ってください",
+        "source": "字幕のソース", "source_hint_screen": "画面の字幕を読み取る", "source_hint_listen": "Windows のライブキャプションで音声を聞き取る",
+        "src_screen": "画面", "src_listen": "音声",
+        "st_listen": "聞き取り中", "st_lc_start": "ライブキャプションを起動中…",
+        "st_lc_missing": "音声モードにはライブキャプション付きの Windows 11（22H2 以降）が必要です",
+        "st_lc_fail": "ライブキャプションを読み取れません：{e}",
         "box_keys": "Ctrl+Alt+矢印：移動 · Ctrl+Alt+Shift+矢印：サイズ変更",
         "st_black": "ゲーム画面が見えません。ボーダーレスまたはウィンドウ化フルスクリーンにしてください",
         "box_region": "① 読み取りエリア：ゲームの字幕に重ねてドラッグ · 完了したら Ctrl+Alt+R",
@@ -290,6 +310,7 @@ DEFAULTS = {
     "src_lang": "en",   # ภาษาของเกม
     "dst_lang": "th",   # ภาษาที่จะแปลเป็น
     "ui_lang": "",      # ภาษาของโปรแกรม: en / th / zh / ja, ว่าง = ตามภาษาของเครื่อง
+    "mode": "screen",   # screen = อ่านซับจากจอ, listen = ฟังเสียงผ่าน Live Captions ของ Windows 11
     "close_action": "ask",  # กดปุ่ม X: ask = ถามทุกครั้ง, minimize = ย่อ, quit = ปิดโปรแกรม
 }
 KEY = "#010203"  # สีนี้จะโปร่งใส
@@ -470,6 +491,114 @@ class Translator:
                          {"client": "dict-chrome-ex", "sl": sl, "tl": tl, "q": text})
         first = data[0]
         return first if isinstance(first, str) else first[0]
+
+
+def live_captions_supported():
+    """Live Captions มีใน Windows 11 22H2 (build 22621) ขึ้นไป"""
+    return IS_WIN and sys.getwindowsversion().build >= 22621
+
+
+class LiveCaptions:
+    """อ่านข้อความจาก Live Captions ผ่าน UI Automation
+    (หน้าต่างคลาส LiveCaptionsDesktopWindow, ข้อความอยู่ใน AutomationId "CaptionsTextBlock")"""
+
+    def __init__(self):
+        self.window = None
+        self.textblock = None
+        self.hwnd = 0
+        self.launched = False
+
+    def session(self):
+        import uiautomation as auto
+        return auto.UIAutomationInitializerInThread()  # UI Automation ต้องเริ่ม COM ในเธรดที่ใช้งาน
+
+    def _find(self):
+        import uiautomation as auto
+        w = auto.WindowControl(searchDepth=1, ClassName="LiveCaptionsDesktopWindow")
+        return w if w.Exists(0, 0) else None
+
+    def start(self, timeout=15):
+        import subprocess
+        self.window = self._find()
+        if self.window is None:
+            subprocess.Popen(["LiveCaptions.exe"], creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            self.launched = True
+            t0 = time.time()
+            while self.window is None and time.time() - t0 < timeout:
+                time.sleep(0.3)
+                self.window = self._find()
+            if self.window is None:
+                raise RuntimeError("Live Captions window not found")
+        self.textblock = self.window.Control(searchDepth=12, AutomationId="CaptionsTextBlock")
+        self.hwnd = self.window.NativeWindowHandle
+        self._hide()
+
+    def text(self):
+        try:
+            return self.textblock.Name if self.textblock and self.textblock.Exists(0, 0) else ""
+        except Exception:
+            return ""
+
+    def _hide(self):
+        # ย่อหน้าต่างและเอาออกจาก taskbar (Live Captions ยังทำงานต่อ)
+        u = ctypes.windll.user32
+        st = u.GetWindowLongW(self.hwnd, GWL_EXSTYLE)
+        u.SetWindowLongW(self.hwnd, GWL_EXSTYLE, st | WS_EX_TOOLWINDOW)
+        u.ShowWindow(self.hwnd, 6)  # SW_MINIMIZE
+
+    def restore(self):
+        if not self.hwnd:
+            return
+        try:
+            u = ctypes.windll.user32
+            st = u.GetWindowLongW(self.hwnd, GWL_EXSTYLE)
+            u.SetWindowLongW(self.hwnd, GWL_EXSTYLE, st & ~WS_EX_TOOLWINDOW)
+            if self.launched:
+                u.PostMessageW(self.hwnd, 0x0010, 0, 0)  # WM_CLOSE: เราเปิดเอง ก็ปิดให้
+            else:
+                u.ShowWindow(self.hwnd, 9)  # SW_RESTORE: ผู้ใช้เปิดไว้เอง คืนให้เหมือนเดิม
+        except Exception:
+            pass
+
+
+SENTENCE_END = re.compile(r"[^.!?。？！]*[.!?。？！]+[\"')\]」』]*")
+
+
+class CaptionTracker:
+    """แยกประโยคจากข้อความของ Live Captions (ข้อความสะสมยาวๆ ที่ประโยคท้ายๆ ถูกแก้ได้เรื่อยๆ)
+
+    feed() คืนประโยคใหม่ที่พูดจบแล้ว ส่วนประโยคที่ยังพูดไม่จบ ถ้าเงียบไป `pause` วินาทีก็นับว่าจบ
+    """
+
+    def __init__(self, pause=2.0, min_words=3):
+        self.pause, self.min_words = pause, min_words
+        self.done = []            # ประโยคที่ส่งแปลไปแล้ว (ล่าสุด)
+        self.partial = ""
+        self.partial_since = 0.0
+
+    def _seen(self, sentence):
+        k = norm(sentence)
+        return not k or any(similar(k, norm(d)) or k in norm(d) for d in self.done[-30:])
+
+    def _emit(self, sentence, out):
+        if not self._seen(sentence):
+            out.append(sentence)
+            self.done = (self.done + [sentence])[-60:]
+
+    def feed(self, text, now):
+        text = re.sub(r"\s+", " ", text or "").strip()
+        out = []
+        sentences = [m.group(0).strip() for m in SENTENCE_END.finditer(text)]
+        tail = text[sum(len(m.group(0)) for m in SENTENCE_END.finditer(text)):].strip() if sentences else text
+        # ดูแค่ 3 ประโยคท้าย (ข้อความเก่ากว่านั้นแปลไปแล้ว หรือหลุดจากจอ Live Captions ไปแล้ว)
+        for sent in sentences[-3:]:
+            if len(sent.split()) >= 1:
+                self._emit(sent, out)
+        if tail != self.partial:
+            self.partial, self.partial_since = tail, now
+        elif tail and now - self.partial_since >= self.pause and len(tail.split()) >= self.min_words:
+            self._emit(tail, out)
+        return out
 
 
 def screen_is_black(bgra):
@@ -955,6 +1084,11 @@ class App:
             return card
 
         card = section("sec_setup", left)
+        listen = self.cfg.get("mode") == "listen"
+        row = card.row(self.t("source"), self.t("source_hint_listen" if listen else "source_hint_screen"))
+        self.w_mode = Segmented(row, [("screen", self.t("src_screen")), ("listen", self.t("src_listen"))],
+                                self.cfg.get("mode", "screen"), self.set_mode)
+        self.w_mode.pack(side="left")
         row = card.row(self.t("capture"), self.t("capture_hint"), "Ctrl+Alt+R")
         Button(row, self.t("auto"), self.auto_detect, pad=(12, 4)).pack(side="left", padx=(0, 6))
         self.region_btn = Button(row, self.t("done" if self.region.editing else "edit"), self.toggle_region, pad=(12, 4))
@@ -1262,12 +1396,32 @@ class App:
             if self.sub.editing:
                 self.toggle_sub()
             self.run_btn.set(self.t("stop"), "secondary")
-            self.set_status("st_running", "good")
-            threading.Thread(target=self.worker, daemon=True).start()
+            if self.cfg.get("mode") == "listen":
+                self.set_status("st_lc_start", "ready")
+                threading.Thread(target=self.listen_worker, daemon=True).start()
+            else:
+                self.set_status("st_running", "good")
+                threading.Thread(target=self.worker, daemon=True).start()
         else:
             self.run_btn.set(self.t("start"), "primary")
             self.set_status("st_stopped")
             self.sub.show("", "")
+
+    def stop_with(self, key, **kw):
+        """หยุดแปล แล้วบอกเหตุผล (ไม่ให้สถานะ "หยุดอยู่" ทับข้อความ)"""
+        if self.running:
+            self.toggle_run()
+        self.set_status(key, "bad", **kw)
+
+    def set_mode(self, v):
+        was_running = self.running
+        if was_running:
+            self.toggle_run()
+        self.cfg["mode"] = v
+        save_config(self.cfg)
+        self.build_panel()
+        if was_running:
+            self.toggle_run()
 
     def set_close_action(self, v):
         self.cfg["close_action"] = v
@@ -1356,6 +1510,35 @@ class App:
         except Exception as e:
             self.ui_q.put(("status", ("st_ocr_fail", "bad", {"e": e})))
 
+    # ---------- โหมดฟังเสียง (Live Captions ของ Windows 11)
+    def listen_worker(self):
+        """เปิด Live Captions แล้วอ่านข้อความทุก 0.25 วิ แปลเฉพาะประโยคที่พูดจบ"""
+        if not live_captions_supported():
+            self.ui_q.put(("call", lambda: self.stop_with("st_lc_missing")))
+            return
+        lc = LiveCaptions()
+        try:
+            with lc.session():
+                lc.start()
+                self.ui_q.put(("status", ("st_listen", "good", {})))
+                tracker = CaptionTracker()
+                last_shown = 0.0
+                while self.running:
+                    now = time.time()
+                    for sentence in tracker.feed(lc.text(), now):
+                        th = self.tr.translate(sentence)
+                        if self.running:
+                            self.ui_q.put(("sub", (sentence, th)))
+                            last_shown = now
+                    if last_shown and now - last_shown > 6 and not tracker.partial:
+                        self.ui_q.put(("sub", ("", "")))  # เงียบนานแล้ว ซ่อนซับ
+                        last_shown = 0.0
+                    time.sleep(0.25)
+        except Exception as e:
+            self.ui_q.put(("call", lambda e=e: self.stop_with("st_lc_fail", e=e)))
+        finally:
+            lc.restore()
+
     def worker(self):
         import mss
         import numpy as np
@@ -1434,6 +1617,10 @@ def selftest(out_path):
         ocr = OCR("en")
         img = np.full((120, 800, 3), 60, np.uint8)
         ocr.read(img)
+        if IS_WIN:  # โหมดฟังเสียงใช้ UI Automation: เช็กว่าโหลดได้ใน exe
+            import uiautomation as auto
+            with auto.UIAutomationInitializerInThread():
+                auto.GetRootControl().Name
         result = "ok"
     except Exception as e:
         result = f"fail: {e!r}"

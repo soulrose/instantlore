@@ -26,7 +26,7 @@ jobs:
 
       - name: Build exe
         working-directory: windows
-        run: pyinstaller --noconfirm --onefile --windowed --name InstantLore --collect-all rapidocr instantlore.py
+        run: pyinstaller --noconfirm --onefile --windowed --name InstantLore --collect-all rapidocr --collect-all uiautomation instantlore.py
 
       - name: Self-test the exe (loads OCR models and reads an image)
         working-directory: windows

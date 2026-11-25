@@ -1,6 +1,6 @@
 # InstantLore
 
-Version 1.3.1 · Developed by **Soulrose**
+Version 1.4.0 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
@@ -33,6 +33,15 @@ On first launch InstantLore downloads a small text-recognition model, so it need
    To place it by hand instead, click **Edit** and drag the box over the subtitles; drag the bottom-right corner to resize it.
 2. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation to appear.
 3. Click **Start translating**, or press **Ctrl+Alt+T**.
+
+### Games without subtitles: Listen mode (Windows 11)
+
+Set **Subtitles from** to **Listen**. InstantLore then uses Windows 11's built-in **Live Captions** to turn the game's speech into text, and translates each sentence as soon as it's spoken. It adds almost no load, because Windows does the speech recognition.
+
+- Needs Windows 11 22H2 or later. InstantLore opens Live Captions for you and minimizes its window while listening.
+- The first time, Windows may ask you to download the Live Captions language. Choose the spoken language in Live Captions' own settings (English works best).
+- Lower the game's music and effects volume, or raise the dialogue volume, for better recognition. Battle noise causes mistakes.
+- Listen mode is Windows only; the Mac version reads the screen.
 
 ### Fullscreen games
 

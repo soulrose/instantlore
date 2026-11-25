@@ -16,7 +16,7 @@ cat > $APP/Contents/Info.plist <<'EOF'
   <key>CFBundleName</key><string>InstantLore</string>
   <key>CFBundleExecutable</key><string>InstantLore</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>1.3.1</string>
+  <key>CFBundleShortVersionString</key><string>1.4.0</string>
   <key>NSHumanReadableCopyright</key><string>Developed by Soulrose</string>
   <key>LSMinimumSystemVersion</key><string>26.0</string>
   <key>LSUIElement</key><true/>

@@ -3,3 +3,4 @@ onnxruntime
 mss
 numpy
 keyboard
+uiautomation; sys_platform == "win32"

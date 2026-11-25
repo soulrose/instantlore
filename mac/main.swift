@@ -11,7 +11,7 @@ import Translation
 // MARK: - App info / languages
 
 let appName = "InstantLore"
-let appVersion = "1.3.1"
+let appVersion = "1.4.0"
 let developer = "Soulrose"
 
 /// code = รหัส Google, vision = ภาษาสำหรับ OCR ([] = ตรวจอัตโนมัติ), apple = รหัส Apple Translation (nil = ใช้ไม่ได้)
