@@ -1,91 +1,91 @@
 # InstantLore
 
-เวอร์ชัน 1.2 · ผู้พัฒนา: **Mongkol Kijroongviriya**
+Version 1.2 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
-## ดาวน์โหลด
+InstantLore reads the subtitles from an area of your screen, translates them, and shows the translation in a floating box over the game. You can place the translation right on top of the game's own subtitles: InstantLore leaves its own windows out of the screen capture, so it still reads the original text underneath.
 
-ดาวน์โหลดได้ที่หน้า [Releases](https://github.com/soulrose/instantlore/releases/latest):
-- **Windows:** `InstantLore-x.y.z-windows-x64.exe` ดับเบิลคลิกเปิดได้เลย ไม่ต้องติดตั้ง Python
-  ถ้า Windows ขึ้นว่า "Windows protected your PC" ให้กด **More info → Run anyway** (โปรแกรมยังไม่ได้ซื้อใบรับรองนักพัฒนา)
-- **Mac (macOS 26 ขึ้นไป):** `InstantLore-x.y.z-mac.dmg` เปิดไฟล์แล้วลาก InstantLore ไปใส่ Applications
-  ครั้งแรกให้คลิกขวาที่แอป → **Open** (แอปยังไม่ได้ลงทะเบียนกับ Apple)
+## Download
 
-ครั้งแรกที่เปิด โปรแกรมจะดาวน์โหลดตัวอ่านตัวหนังสือขนาดเล็ก ต้องต่ออินเทอร์เน็ต
+Get the latest build from [Releases](https://github.com/soulrose/instantlore/releases/latest):
 
-หลักการ: อ่านภาพจอตรง "กล่อง ①" → แปลงภาพเป็นตัวหนังสือ (OCR) → แปล → แสดงใน "กล่อง ②" ลอยทับเกม
-วางซับแปลทับซับในเกมได้เลย เพราะโปรแกรมไม่จับภาพหน้าต่างของตัวเอง
+- **Windows 10 (2004 or later) / 11:** `InstantLore-x.y.z-windows-x64.exe`. Double-click to run; no install or Python needed.
+  If Windows shows "Windows protected your PC", click **More info → Run anyway**. The app isn't signed with a paid certificate yet.
+- **macOS 26 or later:** `InstantLore-x.y.z-mac.dmg`. Open it and drag InstantLore into Applications.
+  The first time, right-click the app and choose **Open**, because it isn't notarized by Apple yet.
 
-## รันจากโค้ดบน Windows
+On first launch InstantLore downloads a small text-recognition model, so it needs an internet connection.
 
-1. ก๊อปโฟลเดอร์ `windows` ไปไว้ในเครื่อง Windows
-2. ดับเบิลคลิก `run_windows.bat`
-   - ถ้ายังไม่มี Python มันจะติดตั้งให้ แล้วให้ดับเบิลคลิกอีกรอบ
-   - ครั้งแรกจะใช้เวลา 1–3 นาทีเพื่อลงโปรแกรมเสริม
-3. กด **Edit** ที่ "Capture area" แล้วลากกล่องสีเหลือง ① ไปครอบซับในเกม (ลากมุมขวาล่างเพื่อปรับขนาด)
-4. กด **Edit** ที่ "Subtitle position" แล้วลากกล่องสีเขียว ② ไปไว้ตรงที่อยากให้ซับแปลขึ้น
-5. กด **Start translating** หรือ **Ctrl+Alt+T**
+## How to use
 
-ถ้าอยากได้ไฟล์ `.exe` ไว้แชร์ให้คนอื่น: รัน `run_windows.bat` หนึ่งครั้งก่อน แล้วรัน `build_exe.bat` จะได้ไฟล์ `dist\InstantLore.exe`
+1. Click **Edit** next to **Capture area** and drag the yellow box ① over the game's subtitles. Drag the bottom-right corner to resize it.
+2. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation to appear.
+3. Click **Start translating**, or press **Ctrl+Alt+T**.
 
-**ข้อสำคัญบน Windows**
-- ตั้งเกมเป็น **Borderless / Windowed Fullscreen** เพราะโหมด Exclusive Fullscreen จะบังซับแปล
-- ถ้าปุ่มลัดใช้ไม่ได้ตอนอยู่ในเกม ให้คลิกขวา `run_windows.bat` → **Run as administrator** (บางเกมรันแบบ admin)
-- ใช้ได้กับ Windows 10 (เวอร์ชัน 2004 ขึ้นไป) และ Windows 11
+Tips for Windows:
+- Set the game to **Borderless** or **Windowed Fullscreen**. Exclusive fullscreen hides the overlay.
+- If the hotkeys don't work while the game is focused, run InstantLore as administrator (some games run elevated).
 
-**กดปุ่ม X:** ครั้งแรกจะถามว่าจะ **ย่อ** (โปรแกรมยังแปลต่อเบื้องหลัง) หรือ **ปิดโปรแกรม** ถ้าติ๊ก "จำการเลือกนี้" ครั้งต่อไปจะไม่ถามอีก ปุ่ม **Quit** มุมขวาล่างใช้ปิดโปรแกรมได้เสมอ
-ถ้าอยากให้กลับมาถามอีก ให้เปิดไฟล์ `.instantlore.json` ในโฟลเดอร์ผู้ใช้ แล้วแก้ `"close_action"` เป็น `"ask"`
+**Closing the window:** the first time you press X, InstantLore asks whether to **Minimize** (keeps translating in the background) or **Quit**. Tick **Remember my choice** to skip the question next time. The **Quit** button in the bottom-right corner always closes the app.
+To be asked again, open `.instantlore.json` in your user folder and set `"close_action"` to `"ask"`.
 
-## สร้างแอปบน Mac จากโค้ด
+On the Mac, InstantLore lives in the menu bar (💬 icon) and asks for **Screen Recording** permission the first time; allow it and reopen the app. You can switch to Apple Translation for offline translation after downloading the languages in System Settings → General → Language & Region → Translation Languages.
+
+## Languages
+
+- **Interface:** English (default) or Thai. Switch it under **Interface** in the bottom-left corner (Windows) or **Interface language** in the menu (Mac).
+- **Game language:** Auto detect, English, Japanese, Chinese (Simplified / Traditional), Korean, French, German, Spanish, Italian, Portuguese, Russian, Thai
+- **Translate to:** Thai, English, Japanese, Chinese, Korean, Vietnamese, Indonesian, Malay, Lao, Burmese, Khmer, French, Spanish
+
+Korean, Russian and Thai use their own text-recognition model, downloaded the first time you pick them.
+
+## Hotkeys
+
+| Keys | Action |
+|---|---|
+| Ctrl+Alt+T | Start / stop translating |
+| Ctrl+Alt+R | Edit the capture area (press again when done) |
+| Ctrl+Alt+M | Move / resize the subtitle box (press again when done) |
+| Ctrl+Alt+H | Show / hide the translated subtitles |
+| Ctrl+Alt+E | Show the original line above the translation |
+| Ctrl+Alt+B | Background box on / off (off: outlined text) |
+| Ctrl+Alt+= / Ctrl+Alt+- | Larger / smaller text |
+
+## Performance (Windows)
+
+Measured on a 2400×300 px subtitle strip:
+
+| | Default OCR settings | InstantLore |
+|---|---|---|
+| CPU per read | 3.3 s | 0.05–0.11 s |
+| Memory | 1,800 MB | ~240 MB |
+| Unchanged subtitle | Read again | Skipped (< 1 ms) |
+
+OCR uses at most 2 CPU threads, the process runs at below-normal priority so the game always comes first, and nothing runs on the GPU.
+
+## Tips for better results
+
+- Keep the capture area tight around the subtitles; leave the HUD and minimap out.
+- Turn on the game's own subtitle background if it has one. OCR reads it much more reliably.
+- InstantLore only translates when the subtitle changes, and hides the translation when the subtitle disappears.
+- Translation uses Google Translate (online). Text recognition runs on your computer.
+
+## Run from source
+
+**Windows:** copy the `windows` folder to the PC and double-click `run_windows.bat`. It installs Python if needed (run it again afterwards) and sets everything up on the first run, which takes 1–3 minutes. `build_exe.bat` builds `dist\InstantLore.exe`.
+
+**Mac:**
 
 ```bash
 cd mac && ./build.sh && open InstantLore.app
 ```
 
-ครั้งแรกเครื่องจะขอสิทธิ์ **Screen Recording** ให้อนุญาตแล้วเปิดโปรแกรมใหม่ เมนูอยู่ที่ไอคอน 💬 บนแถบด้านบน
-ถ้าเลือกระบบแปล Apple จะแปลแบบออฟไลน์ได้ แต่ต้องโหลดภาษาก่อนใน System Settings → General → Language & Region → Translation Languages
+`./build.sh dmg` also packages `InstantLore-x.y.z-mac.dmg`.
 
-## ภาษาของโปรแกรม
-ค่าเริ่มต้นเป็นภาษาอังกฤษ เปลี่ยนเป็นไทยได้ที่ **Interface** มุมซ้ายล่าง (Windows) หรือเมนู 💬 → **Interface language** (Mac)
+## Releasing a new version
 
-## เลือกภาษาที่จะแปล
-- **ภาษาของเกม:** ตรวจอัตโนมัติ, อังกฤษ, ญี่ปุ่น, จีน (ตัวย่อ/ตัวเต็ม), เกาหลี, ฝรั่งเศส, เยอรมัน, สเปน, อิตาลี, โปรตุเกส, รัสเซีย, ไทย
-- **แปลเป็น:** ไทย, อังกฤษ, ญี่ปุ่น, จีน, เกาหลี, เวียดนาม, อินโดนีเซีย, มลายู, ลาว, พม่า, เขมร, ฝรั่งเศส, สเปน
-- ถ้าเลือกภาษาเกมเป็นเกาหลี รัสเซีย หรือไทย ครั้งแรกโปรแกรมจะดาวน์โหลดตัวอ่านภาษานั้นก่อน (ต้องต่อเน็ต ใช้เวลาไม่กี่วินาที)
-
-## ปุ่มลัด (ทั้งสองระบบ)
-
-| ปุ่ม | ทำอะไร |
-|---|---|
-| Ctrl+Alt+T | เริ่ม / หยุดแปล |
-| Ctrl+Alt+R | แก้ไขกล่อง ① (อ่านซับในเกม) กดอีกครั้งเมื่อเสร็จ |
-| Ctrl+Alt+M | ย้าย / ปรับขนาดกล่อง ② (ซับแปล) กดอีกครั้งเมื่อเสร็จ |
-| Ctrl+Alt+H | ซ่อน / แสดงซับแปล |
-| Ctrl+Alt+E | แสดงข้อความต้นฉบับคู่กับคำแปล (เอาไว้ฝึกภาษา) |
-| Ctrl+Alt+B | เปิด/ปิดกล่องพื้นหลัง (ปิดแล้วตัวหนังสือจะมีขอบดำแทน) |
-| Ctrl+Alt+= / Ctrl+Alt+- | ตัวอักษรใหญ่ขึ้น / เล็กลง |
-
-## กินเครื่องแค่ไหน (Windows)
-วัดบนแถบซับขนาด 2400×300 พิกเซล:
-
-| | ก่อนปรับ | หลังปรับ |
-|---|---|---|
-| CPU ต่อการอ่าน 1 ครั้ง | 3.3 วินาที | 0.05–0.11 วินาที |
-| RAM | 1,800 MB | ~240 MB |
-| ตอนซับยังไม่เปลี่ยน | อ่านซ้ำทุกครั้ง | ข้ามไป (< 1 มิลลิวินาที) |
-
-- ใช้ CPU สูงสุด 2 คอร์ และตั้งความสำคัญของโปรแกรมให้ต่ำกว่าเกม เกมจึงได้ CPU ก่อนเสมอ
-- ไม่ใช้การ์ดจอเลย
-
-## เคล็ดลับให้แปลแม่นขึ้น
-- ทำกล่อง ① ให้ครอบแค่ซับ อย่าให้กินพื้นที่ HUD หรือแผนที่มากเกินไป
-- เปิด "พื้นหลังซับ" (subtitle background) ในตั้งค่าของเกม OCR จะอ่านได้แม่นขึ้นมาก
-- ระบบจะแปลเฉพาะตอนที่ซับเปลี่ยน และจะซ่อนซับแปลเองเมื่อซับในเกมหายไป
-- การแปลใช้ Google ซึ่งต้องต่อเน็ต ส่วน OCR ทำงานในเครื่อง
-
-## สร้างเวอร์ชันใหม่ (สำหรับผู้พัฒนา)
-1. แก้เลขเวอร์ชันใน `windows/instantlore.py` (`APP_VERSION`), `mac/main.swift` (`appVersion`) และ `mac/build.sh`
-2. ติด tag แล้ว push เช่น `git tag v1.3.0 && git push origin v1.3.0`
-   GitHub Actions จะสร้าง exe ของ Windows แล้วแนบไว้ในหน้า Release ให้เอง
-3. สร้างไฟล์ Mac ด้วย `cd mac && ./build.sh dmg` แล้วแนบด้วย `gh release upload v1.3.0 mac/InstantLore-1.3.0-mac.dmg`
+1. Update the version in `windows/instantlore.py` (`APP_VERSION`), `mac/main.swift` (`appVersion`) and `mac/build.sh`.
+2. Tag and push, for example `git tag -a v1.3.0 -m "InstantLore 1.3.0" && git push origin v1.3.0`.
+   GitHub Actions builds the Windows exe, runs a self-test on it, and attaches it to the release.
+3. Build the Mac package with `cd mac && ./build.sh dmg` and attach it with `gh release upload v1.3.0 mac/InstantLore-1.3.0-mac.dmg`.

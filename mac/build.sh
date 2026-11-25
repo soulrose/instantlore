@@ -17,7 +17,7 @@ cat > $APP/Contents/Info.plist <<'EOF'
   <key>CFBundleExecutable</key><string>InstantLore</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>1.2</string>
-  <key>NSHumanReadableCopyright</key><string>Developed by Mongkol Kijroongviriya</string>
+  <key>NSHumanReadableCopyright</key><string>Developed by Soulrose</string>
   <key>LSMinimumSystemVersion</key><string>26.0</string>
   <key>LSUIElement</key><true/>
   <key>NSScreenCaptureUsageDescription</key><string>Reads subtitles from the game screen to translate them.</string>

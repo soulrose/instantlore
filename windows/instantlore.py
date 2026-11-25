@@ -1,5 +1,5 @@
 """InstantLore (Windows) — แปลซับเกมแบบ realtime ลอยทับหน้าจอ
-ผู้พัฒนา: Mongkol Kijroongviriya
+ผู้พัฒนา: Soulrose
 
 อ่านจอ (mss) → OCR (RapidOCR ออฟไลน์) → แปล (Google) → ซับไทยลอยทับเกม
 
@@ -25,7 +25,7 @@ from pathlib import Path
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
 APP_VERSION = "1.2"
-DEVELOPER = "Mongkol Kijroongviriya"
+DEVELOPER = "Soulrose"
 
 # ภาษาของเกม: (รหัส Google, ชื่ออังกฤษ, ชื่อไทย, ตัวอ่าน OCR เฉพาะภาษา หรือ None = ตัวหลายภาษาปกติ)
 SOURCE_LANGS = [

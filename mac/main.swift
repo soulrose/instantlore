@@ -1,5 +1,5 @@
 // GameSubTH — แปลซับเกมเป็นภาษาไทย (หรือภาษาอื่น) แบบ realtime บน macOS
-// ผู้พัฒนา: Mongkol Kijroongviriya
+// ผู้พัฒนา: Soulrose
 // อ่านจอ (ScreenCaptureKit) → OCR (Vision) → แปล (Apple Translation ออฟไลน์ / Google ออนไลน์) → แสดงซับลอยทับเกม
 
 import Cocoa
@@ -12,7 +12,7 @@ import Translation
 
 let appName = "InstantLore"
 let appVersion = "1.2"
-let developer = "Mongkol Kijroongviriya"
+let developer = "Soulrose"
 
 /// code = รหัส Google, vision = ภาษาสำหรับ OCR ([] = ตรวจอัตโนมัติ), apple = รหัส Apple Translation (nil = ใช้ไม่ได้)
 struct Lang {
