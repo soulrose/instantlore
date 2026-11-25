@@ -45,10 +45,6 @@ The first launch needs an internet connection to download a small text-recogniti
 
 To update, click **Check for updates** at the bottom of the window (Mac: **Check for Updates…** in the menu). If a newer version is out, InstantLore opens its download page.
 
-## Playing on PS5
-
-InstantLore runs on a computer, so for PS5 games stream the console to a PC with Sony's free **PS Remote Play** app, run InstantLore on top, and connect the PC to the TV. Step-by-step guide in Thai: [docs/PS5-guide-th.md](docs/PS5-guide-th.md).
-
 ## Quick start
 
 1. Start the game and wait for a subtitle to appear.
