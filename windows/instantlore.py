@@ -24,7 +24,7 @@ from pathlib import Path
 
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
-APP_VERSION = "1.5.1"
+APP_VERSION = "1.5.2"
 DEVELOPER = "Soulrose"
 REPO = "soulrose/instantlore"
 
@@ -103,7 +103,7 @@ STRINGS = {
         "position": "Subtitle position", "position_hint": "Where the translation appears",
         "edit": "Edit", "done": "Done", "auto": "Auto",
         "st_auto": "Looking for subtitles… keep one on screen",
-        "st_auto_found": "Found subtitles. Adjust the box if needed, then Done",
+        "st_auto_found": "Found subtitles. Drag the box to adjust if needed; it saves automatically",
         "st_auto_none": "No subtitles found. Show a line on screen and try again",
         "show_subs": "Show subtitles",
         "sec_lang": "Language", "game_lang": "Game language", "translate_to": "Translate to",
@@ -159,8 +159,8 @@ STRINGS = {
         "st_lc_fail": "Couldn't read Live Captions: {e}",
         "box_keys": "Ctrl+Alt+arrows: move · Ctrl+Alt+Shift+arrows: resize",
         "st_black": "Can't see the game. Set it to Borderless or Windowed fullscreen",
-        "box_region": "① Capture area: drag over the game's subtitles · Ctrl+Alt+R when done",
-        "box_sub": "② Subtitle position: drag to move, corner to resize · Ctrl+Alt+M when done",
+        "box_region": "① Capture area: drag over the game's subtitles · saves automatically",
+        "box_sub": "② Subtitle position: drag to move, corner to resize · saves automatically",
         "ph_tr": "Translated subtitle appears here", "ph_orig": "Original subtitle appears here",
         "about_title": "About {app}",
         "about_body": "{app} {ver}\n\nDeveloped by {dev}\n\n"
@@ -173,7 +173,7 @@ STRINGS = {
         "position": "ตำแหน่งซับแปล", "position_hint": "ตำแหน่งที่คำแปลจะขึ้น",
         "edit": "แก้ไข", "done": "เสร็จ", "auto": "อัตโนมัติ",
         "st_auto": "กำลังหาซับ… ให้มีซับขึ้นอยู่บนจอ",
-        "st_auto_found": "เจอซับแล้ว ปรับกล่องได้ถ้าต้องการ แล้วกดเสร็จ",
+        "st_auto_found": "เจอซับแล้ว ลากปรับกล่องได้ถ้าต้องการ บันทึกให้อัตโนมัติ",
         "st_auto_none": "ไม่เจอซับ ให้มีซับขึ้นบนจอแล้วลองอีกครั้ง",
         "show_subs": "แสดงซับแปล",
         "sec_lang": "ภาษา", "game_lang": "ภาษาของเกม", "translate_to": "แปลเป็น",
@@ -229,8 +229,8 @@ STRINGS = {
         "st_lc_fail": "อ่าน Live Captions ไม่ได้: {e}",
         "box_keys": "Ctrl+Alt+ลูกศร: เลื่อน · Ctrl+Alt+Shift+ลูกศร: ปรับขนาด",
         "st_black": "มองไม่เห็นเกม ให้ตั้งเกมเป็น Borderless หรือ Windowed fullscreen",
-        "box_region": "① กล่องอ่านซับ: ลากครอบซับในเกม · กด Ctrl+Alt+R เมื่อเสร็จ",
-        "box_sub": "② ตำแหน่งซับแปล: ลากเพื่อย้าย ลากมุมเพื่อปรับขนาด · กด Ctrl+Alt+M เมื่อเสร็จ",
+        "box_region": "① กล่องอ่านซับ: ลากครอบซับในเกม · บันทึกอัตโนมัติ",
+        "box_sub": "② ตำแหน่งซับแปล: ลากเพื่อย้าย ลากมุมเพื่อปรับขนาด · บันทึกอัตโนมัติ",
         "ph_tr": "ซับแปลจะแสดงตรงนี้", "ph_orig": "ข้อความต้นฉบับจะแสดงตรงนี้",
         "about_title": "เกี่ยวกับ {app}",
         "about_body": "{app} เวอร์ชัน {ver}\n\nผู้พัฒนา: {dev}\n\n"
@@ -243,7 +243,7 @@ STRINGS = {
         "position": "译文位置", "position_hint": "译文显示的位置",
         "edit": "编辑", "done": "完成", "auto": "自动",
         "st_auto": "正在查找字幕…请保持字幕显示在屏幕上",
-        "st_auto_found": "已找到字幕。如有需要可调整框，然后点完成",
+        "st_auto_found": "已找到字幕。如有需要可拖动调整，会自动保存",
         "st_auto_none": "未找到字幕。请让字幕显示在屏幕上后重试",
         "show_subs": "显示译文",
         "sec_lang": "语言", "game_lang": "游戏语言", "translate_to": "翻译为",
@@ -298,8 +298,8 @@ STRINGS = {
         "st_lc_fail": "无法读取实时辅助字幕：{e}",
         "box_keys": "Ctrl+Alt+方向键：移动 · Ctrl+Alt+Shift+方向键：调整大小",
         "st_black": "看不到游戏画面。请将游戏设为无边框或窗口化全屏",
-        "box_region": "① 字幕读取区域：拖动框住游戏字幕 · 完成后按 Ctrl+Alt+R",
-        "box_sub": "② 译文位置：拖动移动，拖动角落调整大小 · 完成后按 Ctrl+Alt+M",
+        "box_region": "① 字幕读取区域：拖动框住游戏字幕 · 自动保存",
+        "box_sub": "② 译文位置：拖动移动，拖动角落调整大小 · 自动保存",
         "ph_tr": "译文将显示在这里", "ph_orig": "原文将显示在这里",
         "about_title": "关于 {app}",
         "about_body": "{app} {ver}\n\n开发者：{dev}\n\n"
@@ -312,7 +312,7 @@ STRINGS = {
         "position": "翻訳の表示位置", "position_hint": "翻訳が表示される場所",
         "edit": "編集", "done": "完了", "auto": "自動",
         "st_auto": "字幕を探しています…字幕を画面に表示したままにしてください",
-        "st_auto_found": "字幕が見つかりました。必要なら枠を調整して完了を押してください",
+        "st_auto_found": "字幕が見つかりました。必要ならドラッグで調整してください（自動保存）",
         "st_auto_none": "字幕が見つかりません。字幕を表示してからもう一度お試しください",
         "show_subs": "翻訳を表示",
         "sec_lang": "言語", "game_lang": "ゲームの言語", "translate_to": "翻訳先",
@@ -367,8 +367,8 @@ STRINGS = {
         "st_lc_fail": "ライブキャプションを読み取れません：{e}",
         "box_keys": "Ctrl+Alt+矢印：移動 · Ctrl+Alt+Shift+矢印：サイズ変更",
         "st_black": "ゲーム画面が見えません。ボーダーレスまたはウィンドウ化フルスクリーンにしてください",
-        "box_region": "① 読み取りエリア：ゲームの字幕に重ねてドラッグ · 完了したら Ctrl+Alt+R",
-        "box_sub": "② 翻訳の表示位置：ドラッグで移動、角でサイズ変更 · 完了したら Ctrl+Alt+M",
+        "box_region": "① 読み取りエリア：ゲームの字幕に重ねてドラッグ · 自動保存",
+        "box_sub": "② 翻訳の表示位置：ドラッグで移動、角でサイズ変更 · 自動保存",
         "ph_tr": "ここに翻訳が表示されます", "ph_orig": "ここに原文が表示されます",
         "about_title": "{app} について",
         "about_body": "{app} {ver}\n\n開発者：{dev}\n\n"
@@ -906,6 +906,7 @@ class Box:
         self.canvas.bind("<ButtonRelease-1>", self._up)
         self.canvas.bind("<Configure>", lambda e: self.redraw())
         self._start = None
+        self.dragging = False
 
     def rect(self):
         w = self.win
@@ -943,6 +944,7 @@ class Box:
         w, h = self.canvas.winfo_width(), self.canvas.winfo_height()
         self._resize = e.x > w - self.HANDLE and e.y > h - self.HANDLE
         self._start = (e.x_root, e.y_root, *self.rect())
+        self.dragging = True
 
     def _drag(self, e):
         if not self.editing or not self._start:
@@ -955,6 +957,7 @@ class Box:
             self.win.geometry(f"{w}x{h}+{x + dx}+{y + dy}")
 
     def _up(self, e):
+        self.dragging = False
         if self.editing:
             self.on_change()
 
@@ -1266,8 +1269,9 @@ class App:
         sub = self.cfg["sub"] or [int(sw * .15), int(sh * .58), int(sw * .7), int(sh * .2)]
         first_run = not self.cfg["region"]
 
-        self.region = Box(self.root, region, C["accent"], self.t("box_region"), self.save_boxes)
-        self.sub = SubtitleBox(self.root, sub, self.cfg, self.t("box_sub"), self.save_boxes)
+        self.region = Box(self.root, region, C["accent"], self.t("box_region"), lambda: self.box_changed(self.region))
+        self.sub = SubtitleBox(self.root, sub, self.cfg, self.t("box_sub"), lambda: self.box_changed(self.sub))
+        self._finish_timers = {}
         self.sub.alpha_edit, self.sub.alpha_normal = 0.75, 0.92
         self.cfg["region"], self.cfg["sub"] = region, sub
         self.region.set_editing(False)
@@ -1341,10 +1345,10 @@ class App:
         self.w_mode.pack(side="left")
         row = card.row(self.t("capture"), self.t("capture_hint"), "Ctrl+Alt+R")
         Button(row, self.t("auto"), self.auto_detect, pad=(12, 4)).pack(side="left", padx=(0, 6))
-        self.region_btn = Button(row, self.t("done" if self.region.editing else "edit"), self.toggle_region, pad=(12, 4))
+        self.region_btn = Button(row, self.t("edit"), self.toggle_region, pad=(12, 4))
         self.region_btn.pack(side="left")
         row = card.row(self.t("position"), self.t("position_hint"), "Ctrl+Alt+M")
-        self.sub_btn = Button(row, self.t("done" if self.sub.editing else "edit"), self.toggle_sub, pad=(12, 4))
+        self.sub_btn = Button(row, self.t("edit"), self.toggle_sub, pad=(12, 4))
         self.sub_btn.pack(side="left")
         row = card.row(self.t("show_subs"), key="Ctrl+Alt+H")
         self.w_show = Toggle(row, self.subs_visible, lambda v: self.toggle_hide())
@@ -1498,6 +1502,30 @@ class App:
             keyboard.add_hotkey(k, lambda fn=fn: self.ui_q.put(("call", fn)), suppress=False)
 
     # ---------- คำสั่ง
+    # ไม่มีปุ่ม "เสร็จ": ลากเมื่อไหร่บันทึกทันที แล้วจบการแก้ไขเองเมื่อไม่ได้ขยับ
+    FINISH_AFTER_EDIT = 3000   # มิลลิวินาที หลังลาก/เลื่อนครั้งล่าสุด
+    FINISH_IF_UNTOUCHED = 8000  # ถ้ากดแก้ไขแล้วยังไม่ได้ขยับเลย
+
+    def box_changed(self, box):
+        self.save_boxes()
+        self.schedule_finish(box, self.FINISH_AFTER_EDIT)
+
+    def schedule_finish(self, box, delay):
+        old = self._finish_timers.pop(id(box), None)
+        if old:
+            self.root.after_cancel(old)
+        if delay is not None:
+            self._finish_timers[id(box)] = self.root.after(delay, lambda: self.finish_edit(box))
+
+    def finish_edit(self, box):
+        self._finish_timers.pop(id(box), None)
+        if not box.editing:
+            return
+        if box.dragging:  # ยังกดเมาส์ค้างอยู่ รออีกนิด
+            self.schedule_finish(box, 1500)
+            return
+        (self.toggle_region if box is self.region else self.toggle_sub)()
+
     def save_boxes(self):
         self.cfg["region"] = self.region.rect()
         self.cfg["sub"] = self.sub.rect()
@@ -1557,7 +1585,7 @@ class App:
         self.cfg["region"] = region
         save_config(self.cfg)
         if not self.region.editing:
-            self.toggle_region()  # โชว์กล่องให้ดู ปรับต่อได้ กดเสร็จเมื่อพอใจ
+            self.toggle_region()  # โชว์กล่องให้ดู ลากปรับต่อได้ แล้วจบเองอัตโนมัติ
         self.set_status("st_auto_found", "good")
 
     def nudge(self, dx, dy, resize=False, step=10):
@@ -1574,7 +1602,7 @@ class App:
             x, y = x + dx * step, y + dy * step
         box.win.geometry(f"{w}x{h}+{x}+{y}")
         box.win.update_idletasks()
-        self.save_boxes()
+        self.box_changed(box)
 
     def toggle_region(self):
         on = not self.region.editing
@@ -1587,8 +1615,7 @@ class App:
         if not on:
             self.save_boxes()
             self.region.win.withdraw()
-        if hasattr(self, "region_btn"):
-            self.region_btn.set(self.t("done" if on else "edit"))
+        self.schedule_finish(self.region, self.FINISH_IF_UNTOUCHED if on else None)
 
     def toggle_sub(self):
         self.sub.set_editing(not self.sub.editing)
@@ -1596,8 +1623,7 @@ class App:
             self.active_box = self.sub
         if not self.sub.editing:
             self.save_boxes()
-        if hasattr(self, "sub_btn"):
-            self.sub_btn.set(self.t("done" if self.sub.editing else "edit"))
+        self.schedule_finish(self.sub, self.FINISH_IF_UNTOUCHED if self.sub.editing else None)
 
     def toggle_hide(self):
         self.subs_visible = not self.subs_visible

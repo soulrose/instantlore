@@ -1,6 +1,6 @@
 # InstantLore
 
-Live translated subtitles for games. Version 1.5.1 · Developed by **Soulrose**
+Live translated subtitles for games. Version 1.5.2 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
@@ -48,12 +48,12 @@ To update, click **Check for updates** at the bottom of the window (Mac: **Check
 ## Quick start
 
 1. Start the game and wait for a subtitle to appear.
-2. Click **Auto** next to **Capture area** (or press **Ctrl+Alt+A**). InstantLore watches the screen for about 5 seconds and places the yellow box ① over the subtitles. Adjust it if needed and click **Done**.
+2. Click **Auto** next to **Capture area** (or press **Ctrl+Alt+A**). InstantLore watches the screen for about 5 seconds and places the yellow box ① over the subtitles. Drag it to adjust if needed.
    To place it by hand, click **Edit** instead and drag the box over the subtitles; drag the bottom-right corner to resize it.
-3. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation, then click **Done**.
+3. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation.
 4. Click **Start translating** (**Ctrl+Alt+T**).
 
-InstantLore remembers both boxes, so next time you only need step 4.
+There is no Done button: each box saves as soon as you let go of the mouse, and editing ends by itself a few seconds after you stop moving it (or press the hotkey again to finish right away). InstantLore remembers both boxes, so next time you only need step 4.
 
 ## Listen mode (Windows 11)
 
@@ -73,8 +73,8 @@ For games without subtitles, set **Subtitles from** to **Listen**. InstantLore u
 Set the game to **Borderless** or **Windowed fullscreen**; it looks the same as fullscreen. If InstantLore can only see a black screen, the status line tells you.
 
 You can set everything up without leaving the game:
-- **Auto:** with a subtitle on screen, press **Ctrl+Alt+A**, then **Ctrl+Alt+R** once the box looks right.
-- **By hand:** press **Ctrl+Alt+R** (capture area) or **Ctrl+Alt+M** (subtitle position). If the game holds the mouse, pause the game to get the cursor back, or move the box with **Ctrl+Alt+arrow keys** and resize it with **Ctrl+Alt+Shift+arrow keys**. Press the same hotkey again when done.
+- **Auto:** with a subtitle on screen, press **Ctrl+Alt+A**. The box is placed and saved for you.
+- **By hand:** press **Ctrl+Alt+R** (capture area) or **Ctrl+Alt+M** (subtitle position). If the game holds the mouse, pause the game to get the cursor back, or move the box with **Ctrl+Alt+arrow keys** and resize it with **Ctrl+Alt+Shift+arrow keys**. Changes save automatically.
 
 ## Hotkeys
 
@@ -84,8 +84,8 @@ On the Mac, Ctrl+Alt is **⌃⌥** (Control+Option).
 |---|---|---|
 | Ctrl+Alt+T | Start / stop translating | ✓ |
 | Ctrl+Alt+A | Find the subtitles automatically | |
-| Ctrl+Alt+R | Edit the capture area (press again when done) | ✓ |
-| Ctrl+Alt+M | Edit the subtitle position (press again when done) | ✓ |
+| Ctrl+Alt+R | Edit the capture area | ✓ |
+| Ctrl+Alt+M | Edit the subtitle position | ✓ |
 | Ctrl+Alt+arrows | Move the box you're editing | |
 | Ctrl+Alt+Shift+arrows | Resize the box you're editing | |
 | Ctrl+Alt+H | Show / hide the translation | ✓ |
