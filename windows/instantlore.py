@@ -24,7 +24,7 @@ from pathlib import Path
 
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
-APP_VERSION = "1.4.1"
+APP_VERSION = "1.5.0"
 DEVELOPER = "Soulrose"
 REPO = "soulrose/instantlore"
 
@@ -126,6 +126,30 @@ STRINGS = {
         "st_reload": "Loading reader for {lang}…", "st_error": "Error: {e}",
         "st_ocr_fail": "Couldn't load the text reader: {e}",
         "st_no_keys": "Hotkeys unavailable, use this window",
+        "sec_tr": "Translation",
+        "engine": "Translate with",
+        "engine_hint_google": "Free, no setup",
+        "engine_hint_gemini": "Reads the story so far for more natural lines",
+        "gemini_key": "Gemini API key",
+        "key_set": "Key saved",
+        "key_none": "No key yet",
+        "set_key": "Set key",
+        "key_title": "Gemini API key",
+        "key_body": "1. Click Get a free key and sign in with your Google account.\n2. Click Create API key and copy it.\n3. Paste it below. It stays on this computer.",
+        "get_key": "Get a free key",
+        "test": "Test",
+        "save": "Save",
+        "cancel": "Cancel",
+        "testing": "Testing…",
+        "test_ok": "Works: {out}",
+        "test_fail": "Didn't work: {e}. Google Translate will be used meanwhile.",
+        "via_google": "Gemini unavailable ({e}), using Google",
+        "e_key": "invalid API key",
+        "e_quota": "free quota used up for now",
+        "e_net": "no internet connection",
+        "e_slow": "too slow to reply",
+        "e_model": "model not available",
+        "e_other": "error {code}",
         "source": "Subtitles from", "source_hint_screen": "Reads the subtitles on screen", "source_hint_listen": "Listens to speech with Windows Live Captions",
         "src_screen": "Screen", "src_listen": "Listen",
         "st_listen": "Listening", "st_lc_start": "Starting Live Captions…",
@@ -138,7 +162,7 @@ STRINGS = {
         "ph_tr": "Translated subtitle appears here", "ph_orig": "Original subtitle appears here",
         "about_title": "About {app}",
         "about_body": "{app} {ver}\n\nDeveloped by {dev}\n\n"
-                      "Text reading: RapidOCR, runs on this PC\nTranslation: Google Translate (internet)",
+                      "Text reading: RapidOCR, runs on this PC\nTranslation: Google Translate or Gemini (internet)",
     },
     "th": {
         "start": "เริ่มแปล", "stop": "หยุดแปล",
@@ -170,6 +194,30 @@ STRINGS = {
         "st_reload": "กำลังโหลดตัวอ่านภาษา{lang}…", "st_error": "ผิดพลาด: {e}",
         "st_ocr_fail": "โหลดตัวอ่านข้อความไม่ได้: {e}",
         "st_no_keys": "ปุ่มลัดใช้ไม่ได้ ใช้ปุ่มในหน้าต่างนี้แทน",
+        "sec_tr": "การแปล",
+        "engine": "แปลด้วย",
+        "engine_hint_google": "ฟรี ไม่ต้องตั้งค่า",
+        "engine_hint_gemini": "อ่านเนื้อเรื่องก่อนหน้า แปลลื่นกว่า",
+        "gemini_key": "Gemini API key",
+        "key_set": "ใส่ key แล้ว",
+        "key_none": "ยังไม่ได้ใส่ key",
+        "set_key": "ตั้ง key",
+        "key_title": "Gemini API key",
+        "key_body": "1. กด รับ key ฟรี แล้ว login ด้วยบัญชี Google\n2. กด Create API key แล้วคัดลอก\n3. วาง key ในช่องด้านล่าง (เก็บไว้ในเครื่องนี้เท่านั้น)",
+        "get_key": "รับ key ฟรี",
+        "test": "ทดสอบ",
+        "save": "บันทึก",
+        "cancel": "ยกเลิก",
+        "testing": "กำลังทดสอบ…",
+        "test_ok": "ใช้ได้: {out}",
+        "test_fail": "ใช้ไม่ได้: {e} ระหว่างนี้จะใช้ Google Translate แทน",
+        "via_google": "Gemini ใช้ไม่ได้ ({e}) ใช้ Google แทน",
+        "e_key": "API key ไม่ถูกต้อง",
+        "e_quota": "โควตาฟรีหมดชั่วคราว",
+        "e_net": "ต่ออินเทอร์เน็ตไม่ได้",
+        "e_slow": "ตอบช้าเกินไป",
+        "e_model": "ไม่พบรุ่นนี้",
+        "e_other": "ขัดข้อง {code}",
         "source": "แปลจาก", "source_hint_screen": "อ่านซับที่ขึ้นบนจอ", "source_hint_listen": "ฟังเสียงพูดผ่าน Live Captions ของ Windows",
         "src_screen": "จอ", "src_listen": "เสียง",
         "st_listen": "กำลังฟัง", "st_lc_start": "กำลังเปิด Live Captions…",
@@ -213,6 +261,30 @@ STRINGS = {
         "st_reload": "正在加载{lang}识别…", "st_error": "错误：{e}",
         "st_ocr_fail": "无法加载文字识别：{e}",
         "st_no_keys": "快捷键不可用，请使用此窗口",
+        "sec_tr": "翻译",
+        "engine": "翻译引擎",
+        "engine_hint_google": "免费，无需设置",
+        "engine_hint_gemini": "参考前文剧情，译文更自然",
+        "gemini_key": "Gemini API 密钥",
+        "key_set": "已保存密钥",
+        "key_none": "尚未设置密钥",
+        "set_key": "设置密钥",
+        "key_title": "Gemini API 密钥",
+        "key_body": "1. 点“获取免费密钥”，用 Google 账号登录。\n2. 点 Create API key 并复制。\n3. 粘贴到下方（仅保存在本机）。",
+        "get_key": "获取免费密钥",
+        "test": "测试",
+        "save": "保存",
+        "cancel": "取消",
+        "testing": "正在测试…",
+        "test_ok": "可用：{out}",
+        "test_fail": "不可用：{e}。在此期间将使用 Google 翻译。",
+        "via_google": "Gemini 不可用（{e}），改用 Google",
+        "e_key": "API 密钥无效",
+        "e_quota": "免费额度暂时用完",
+        "e_net": "无法连接网络",
+        "e_slow": "响应太慢",
+        "e_model": "找不到此模型",
+        "e_other": "错误 {code}",
         "source": "字幕来源", "source_hint_screen": "读取屏幕上的字幕", "source_hint_listen": "通过 Windows 实时辅助字幕收听语音",
         "src_screen": "屏幕", "src_listen": "语音",
         "st_listen": "正在收听", "st_lc_start": "正在启动实时辅助字幕…",
@@ -256,6 +328,30 @@ STRINGS = {
         "st_reload": "{lang}の認識を読み込み中…", "st_error": "エラー：{e}",
         "st_ocr_fail": "文字認識を読み込めません：{e}",
         "st_no_keys": "ショートカットが使えません。このウィンドウを使ってください",
+        "sec_tr": "翻訳",
+        "engine": "翻訳エンジン",
+        "engine_hint_google": "無料・設定不要",
+        "engine_hint_gemini": "前の会話を踏まえて自然に翻訳",
+        "gemini_key": "Gemini API キー",
+        "key_set": "キー保存済み",
+        "key_none": "キー未設定",
+        "set_key": "キーを設定",
+        "key_title": "Gemini API キー",
+        "key_body": "1.「無料キーを取得」を押し、Google アカウントでログイン。\n2. Create API key を押してコピー。\n3. 下に貼り付け（このPCにのみ保存）。",
+        "get_key": "無料キーを取得",
+        "test": "テスト",
+        "save": "保存",
+        "cancel": "キャンセル",
+        "testing": "テスト中…",
+        "test_ok": "使用可能：{out}",
+        "test_fail": "使用できません：{e}。その間は Google 翻訳を使います。",
+        "via_google": "Gemini が使えません（{e}）。Google を使用中",
+        "e_key": "API キーが無効",
+        "e_quota": "無料枠を一時的に使い切りました",
+        "e_net": "インターネットに接続できません",
+        "e_slow": "応答が遅すぎます",
+        "e_model": "モデルが見つかりません",
+        "e_other": "エラー {code}",
         "source": "字幕のソース", "source_hint_screen": "画面の字幕を読み取る", "source_hint_listen": "Windows のライブキャプションで音声を聞き取る",
         "src_screen": "画面", "src_listen": "音声",
         "st_listen": "聞き取り中", "st_lc_start": "ライブキャプションを起動中…",
@@ -310,6 +406,9 @@ DEFAULTS = {
     "src_lang": "en",   # ภาษาของเกม
     "dst_lang": "th",   # ภาษาที่จะแปลเป็น
     "ui_lang": "",      # ภาษาของโปรแกรม: en / th / zh / ja, ว่าง = ตามภาษาของเครื่อง
+    "engine": "google",  # google = Google Translate (ฟรี ไม่ต้องตั้งค่า), gemini = Gemini (ต้องมี API key ฟรี)
+    "gemini_key": "",    # เก็บไว้ในเครื่องนี้เท่านั้น
+    "gemini_model": "",  # ว่าง = รุ่น Flash-Lite ล่าสุด
     "mode": "screen",   # screen = อ่านซับจากจอ, listen = ฟังเสียงผ่าน Live Captions ของ Windows 11
     "close_action": "ask",  # กดปุ่ม X: ask = ถามทุกครั้ง, minimize = ย่อ, quit = ปิดโปรแกรม
 }
@@ -453,6 +552,97 @@ class OCR:
         items.sort(key=lambda t: (round(t[0] / max(8, t[2] * 0.6)), t[1]))
         text = self.join.join(t[3] for t in items)
         return re.sub(r"\s+", " ", text).strip()
+
+
+class GeminiError(Exception):
+    """key = เหตุผลสำหรับข้อความในหน้าโปรแกรม (e_key, e_quota, ...)"""
+
+    def __init__(self, key, code=0):
+        super().__init__(key)
+        self.key, self.code = key, code
+
+
+class GeminiTranslator:
+    """แปลด้วย Gemini (API key ฟรีจาก Google AI Studio) ส่งบรรทัดก่อนหน้าไปด้วยให้รู้บริบท"""
+
+    URL = "https://generativelanguage.googleapis.com/v1beta/models/{}:generateContent"
+    MODELS = ["gemini-flash-lite-latest", "gemini-3.5-flash-lite"]  # ตัวแรกชี้ไปรุ่นล่าสุดเสมอ ตัวหลังสำรอง
+    NAMES = {"auto": "the original language", "en": "English", "ja": "Japanese", "zh-CN": "Simplified Chinese",
+             "zh-TW": "Traditional Chinese", "ko": "Korean", "fr": "French", "de": "German", "es": "Spanish",
+             "it": "Italian", "pt": "Portuguese", "ru": "Russian", "th": "Thai", "vi": "Vietnamese",
+             "id": "Indonesian", "ms": "Malay", "lo": "Lao", "my": "Burmese", "km": "Khmer"}
+
+    def __init__(self):
+        self.history = []  # [(ต้นฉบับ, คำแปล)] ล่าสุด
+        self.cache = {}
+        self.model = None  # รุ่นที่ใช้ได้จริง (จำไว้หลังเรียกสำเร็จ)
+
+    def translate(self, text, key, sl, tl, model=""):
+        ck = (sl, tl, text)
+        if ck in self.cache:
+            return self.cache[ck]
+        system = (
+            f"You translate video game subtitles from {self.NAMES.get(sl, 'the original language')} into "
+            f"{self.NAMES.get(tl, 'Thai')}. The player reads them on screen while the line is spoken, so write "
+            "natural, spoken subtitles rather than a literal translation. Match the speaker's tone, translate "
+            "idioms and slang by meaning, keep character and place names as names, and keep a speaker label "
+            "such as \"ARTHUR:\" as the name followed by a colon. The text comes from OCR or speech recognition "
+            "and may contain small errors; translate what the line most likely says. Lines inside "
+            "<previous_lines> are earlier subtitles, given only as context. Reply with the translation of the "
+            "text inside <line> only, with no quotes or notes."
+        )
+        prev = "\n".join(f"{a} => {b}" for a, b in self.history[-4:])
+        content = (f"<previous_lines>\n{prev}\n</previous_lines>\n" if prev else "") + f"<line>{text}</line>"
+        body = {"system_instruction": {"parts": [{"text": system}]},
+                "contents": [{"role": "user", "parts": [{"text": content}]}]}
+        models = [model] if model else ([self.model] if self.model else self.MODELS)
+        data, last = None, None
+        for m in models:
+            try:
+                data = self._post(m, body, key)
+                self.model = m
+                break
+            except GeminiError as e:
+                last = e
+                if e.key != "e_model":
+                    raise
+        if data is None:
+            raise last
+        cands = data.get("candidates") or []
+        parts = ((cands[0].get("content") or {}).get("parts") or []) if cands else []
+        out = "".join(p.get("text", "") for p in parts if not p.get("thought")).strip()
+        if not out:
+            raise GeminiError("e_other", "empty")
+        self.history = (self.history + [(text, out)])[-4:]
+        if len(self.cache) > 500:
+            self.cache.clear()
+        self.cache[ck] = out
+        return out
+
+    def _post(self, model, body, key):
+        import socket
+        import urllib.error
+        req = urllib.request.Request(self.URL.format(urllib.parse.quote(model)), method="POST",
+                                     data=json.dumps(body).encode("utf-8"),
+                                     headers={"Content-Type": "application/json", "x-goog-api-key": key})
+        try:
+            with urllib.request.urlopen(req, timeout=5) as r:
+                return json.loads(r.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            msg = e.read().decode("utf-8", "ignore")
+            if e.code in (401, 403) or "API_KEY_INVALID" in msg or "API key not valid" in msg:
+                raise GeminiError("e_key", e.code)
+            if e.code == 429:
+                raise GeminiError("e_quota", e.code)
+            if e.code == 404:
+                raise GeminiError("e_model", e.code)
+            raise GeminiError("e_other", e.code)
+        except (socket.timeout, TimeoutError):
+            raise GeminiError("e_slow")
+        except urllib.error.URLError as e:
+            if isinstance(getattr(e, "reason", None), (socket.timeout, TimeoutError)):
+                raise GeminiError("e_slow")
+            raise GeminiError("e_net")
 
 
 class Translator:
@@ -1044,6 +1234,8 @@ class App:
         self.running = False
         self.ocr = None
         self.tr = Translator()
+        self.gemini = GeminiTranslator()
+        self.gemini_fails, self.gemini_pause = 0, 0.0
         self.status = ("st_loading", {}, "faint")
         self.subs_visible = True
 
@@ -1159,6 +1351,17 @@ class App:
         row = card.row(self.t("scan"))
         Segmented(row, [(0.3, self.t("fast")), (0.5, self.t("normal")), (1.0, self.t("light"))],
                   self.cfg["interval"], self.set_interval).pack(side="left")
+
+        card = section("sec_tr", right)
+        gem = self.cfg.get("engine") == "gemini"
+        row = card.row(self.t("engine"), self.t("engine_hint_gemini" if gem else "engine_hint_google"))
+        Segmented(row, [("google", "Google"), ("gemini", "Gemini")], self.cfg.get("engine", "google"),
+                  self.set_engine).pack(side="left")
+        if gem:
+            has = bool(self.cfg.get("gemini_key"))
+            row = card.row(self.t("gemini_key"), self.t("key_set" if has else "key_none"))
+            Button(row, self.t("set_key"), self.key_dialog, kind="secondary" if has else "primary",
+                   pad=(12, 4)).pack(side="left")
 
         foot = tk.Frame(body, bg=C["bg"])
         foot.pack(fill="x", pady=(16, 0))
@@ -1443,6 +1646,91 @@ class App:
             self.set_status("st_stopped")
             self.sub.show("", "")
 
+    def translate(self, text):
+        """แปลด้วยตัวที่เลือก ถ้า Gemini ใช้ไม่ได้ก็ใช้ Google แทน (เรียกจากเธรดทำงาน)"""
+        key = self.cfg.get("gemini_key", "").strip()
+        if self.cfg.get("engine") == "gemini" and key and time.time() >= self.gemini_pause:
+            try:
+                out = self.gemini.translate(text, key, self.cfg["src_lang"], self.cfg["dst_lang"],
+                                            self.cfg.get("gemini_model", ""))
+                self.gemini_fails = 0
+                return out
+            except GeminiError as e:
+                self.gemini_fails += 1
+                # key ผิด / โควตาหมด / พลาด 3 ครั้งติด: พักไว้ 1 นาที ไม่ต้องลองทุกบรรทัด
+                if e.key in ("e_key", "e_quota") or self.gemini_fails >= 3:
+                    self.gemini_pause = time.time() + 60
+                self.ui_q.put(("status", ("via_google", "bad", {"e": self.t(e.key, code=e.code)})))
+        return self.tr.translate(text)
+
+    def set_engine(self, v):
+        self.cfg["engine"] = v
+        save_config(self.cfg)
+        self.gemini_fails, self.gemini_pause = 0, 0.0
+        self.build_panel()
+        if v == "gemini" and not self.cfg.get("gemini_key"):
+            self.key_dialog()
+
+    def key_dialog(self):
+        """กล่องใส่ Gemini API key: ปุ่มรับ key ฟรี, ช่องวาง key, ทดสอบ, บันทึก"""
+        import webbrowser
+        r = self.root
+        r.attributes("-topmost", False)
+        d = tk.Toplevel(r, bg=C["bg"], padx=22, pady=18)
+        d.bind("<Destroy>", lambda e: e.widget is d and r.winfo_exists() and r.attributes("-topmost", True))
+        d.title(APP_NAME)
+        d.resizable(False, False)
+        d.transient(r)
+        d.attributes("-topmost", True)
+        tk.Label(d, text=self.t("key_title"), bg=C["bg"], fg=C["text"], font=F(13, "bold")).pack(anchor="w")
+        tk.Label(d, text=self.t("key_body"), bg=C["bg"], fg=C["muted"], font=F(10), justify="left").pack(
+            anchor="w", pady=(6, 10))
+        Button(d, self.t("get_key"), lambda: webbrowser.open("https://aistudio.google.com/apikey"),
+               pad=(14, 5)).pack(anchor="w")
+        var = tk.StringVar(value=self.cfg.get("gemini_key", ""))
+        entry = tk.Entry(d, textvariable=var, show="•", width=46, font=F(11), bg=C["card"], fg=C["text"],
+                         insertbackground=C["text"], relief="flat", highlightthickness=1,
+                         highlightbackground=C["line"], highlightcolor=C["accent"])
+        entry.pack(fill="x", pady=(12, 0), ipady=6)
+        result = tk.Label(d, text="", bg=C["bg"], fg=C["muted"], font=F(10), justify="left", wraplength=420)
+        result.pack(anchor="w", pady=(8, 0))
+
+        def test():
+            key = var.get().strip()
+            result.config(text=self.t("testing"), fg=C["muted"])
+
+            def run():
+                try:
+                    out = GeminiTranslator().translate("Saddle up, boys. We ride at dawn.", key, "en",
+                                                       self.cfg["dst_lang"], self.cfg.get("gemini_model", ""))
+                    msg, col = self.t("test_ok", out=out), C["good"]
+                except GeminiError as e:
+                    msg, col = self.t("test_fail", e=self.t(e.key, code=e.code)), C["bad"]
+                self.ui_q.put(("call", lambda: result.winfo_exists() and result.config(text=msg, fg=col)))
+            threading.Thread(target=run, daemon=True).start()
+
+        def save():
+            self.cfg["gemini_key"] = var.get().strip()
+            save_config(self.cfg)
+            self.gemini_fails, self.gemini_pause = 0, 0.0
+            d.destroy()
+            self.build_panel()
+
+        bar = tk.Frame(d, bg=C["bg"])
+        bar.pack(fill="x", pady=(16, 0))
+        Button(bar, self.t("save"), save, kind="primary", pad=(18, 6)).pack(side="right")
+        Button(bar, self.t("test"), test, pad=(16, 5)).pack(side="right", padx=(0, 10))
+        Button(bar, self.t("cancel"), d.destroy, kind="ghost", pad=(8, 5)).pack(side="left")
+        d.bind("<Escape>", lambda e: d.destroy())
+        d.update_idletasks()
+        x = r.winfo_rootx() + (r.winfo_width() - d.winfo_width()) // 2
+        y = r.winfo_rooty() + (r.winfo_height() - d.winfo_height()) // 3
+        d.geometry(f"+{max(0, x)}+{max(0, y)}")
+        d.lift()
+        d.grab_set()
+        entry.focus_set()
+        self.last_dialog = d
+
     def stop_with(self, key, **kw):
         """หยุดแปล แล้วบอกเหตุผล (ไม่ให้สถานะ "หยุดอยู่" ทับข้อความ)"""
         if self.running:
@@ -1562,7 +1850,7 @@ class App:
                 while self.running:
                     now = time.time()
                     for sentence in tracker.feed(lc.text(), now):
-                        th = self.tr.translate(sentence)
+                        th = self.translate(sentence)
                         if self.running:
                             self.ui_q.put(("sub", (sentence, th)))
                             last_shown = now
@@ -1614,7 +1902,7 @@ class App:
                                 candidate = key  # รอให้ข้อความนิ่งอีก 1 รอบก่อนแปล
                             else:
                                 shown = key
-                                th = self.tr.translate(text)
+                                th = self.translate(text)
                                 if self.running:
                                     self.ui_q.put(("sub", (text, th)))
                                     self.ui_q.put(("status", ("st_running", "good", {})))

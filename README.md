@@ -1,6 +1,6 @@
 # InstantLore
 
-Live translated subtitles for games. Version 1.4.1 · Developed by **Soulrose**
+Live translated subtitles for games. Version 1.5.0 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
@@ -28,6 +28,7 @@ You choose where the translation sits, for example just above the game's own sub
 - **Finds the subtitles for you:** one click, and the capture box lands on the game's subtitles.
 - **Listen mode** for games without subtitles, using Windows 11 Live Captions.
 - **Overlay on top of the game:** you can place the translation right over the original subtitles, because InstantLore leaves its own windows out of the screen capture.
+- **Better translations with Gemini (optional):** sign in to Google AI Studio for a free key, and Gemini translates with the story so far in mind. Without a key, Google Translate works with no setup.
 - **13 game languages, 13 target languages,** and an interface in English, Thai, Chinese or Japanese.
 - **Light on your PC:** about 0.1 s of CPU per read, about 240 MB of memory, no GPU use. See [Performance](#performance).
 
@@ -98,6 +99,25 @@ On the Mac, Ctrl+Alt is **⌃⌥** (Control+Option).
 - **Translate to:** Thai, English, Japanese, Chinese, Korean, Vietnamese, Indonesian, Malay, Lao, Burmese, Khmer, French, Spanish
 - **Interface:** English, Thai, Chinese or Japanese. It follows your system language on first launch (English if your system uses another language). Change it under **Interface** at the bottom of the window (Mac: **Interface language** in the menu).
 
+## Translation: Google or Gemini (Windows)
+
+Under **Translation → Translate with**:
+
+| | Google (default) | Gemini |
+|---|---|---|
+| Setup | None | A free API key, once |
+| Quality | Word-for-word, can sound stiff | Natural, keeps the tone and names, reads the previous lines for context |
+| Limits | None in practice | Free quota per minute; when it runs out, InstantLore switches to Google for a minute |
+
+To use Gemini:
+1. Choose **Gemini**. The key window opens.
+2. Click **Get a free key**, sign in with your Google account on Google AI Studio, click **Create API key** and copy it. No credit card needed.
+3. Paste the key, click **Test** to check it, then **Save**.
+
+If Gemini can't answer (wrong key, quota used up, no internet, slow reply), InstantLore translates that line with Google instead and says why in the status line. Your key is stored only in `.instantlore.json` on your computer.
+
+![Gemini key window](docs/gemini-key.png)
+
 ## Windows and Mac
 
 | | Windows | Mac |
@@ -106,7 +126,7 @@ On the Mac, Ctrl+Alt is **⌃⌥** (Control+Option).
 | Find subtitles automatically | ✓ | |
 | Listen mode | ✓ (Windows 11) | |
 | Move boxes with arrow keys | ✓ | |
-| Translation | Google Translate | Google Translate, or Apple Translation offline |
+| Translation | Google Translate, or Gemini with a free key | Google Translate, or Apple Translation offline |
 | Where it lives | Its own window | Menu bar (💬 icon) |
 
 For offline translation on the Mac, choose **Translator → Apple** in the menu and download the languages in System Settings → General → Language & Region → Translation Languages.
@@ -131,7 +151,7 @@ To be asked again, open `.instantlore.json` in your user folder and set `"close_
 
 ## Privacy
 
-Text recognition runs on your computer. The recognized subtitle text is sent to Google Translate to be translated (except with Apple Translation on the Mac, which works offline). No screenshots or audio leave your computer; in Listen mode, Windows Live Captions processes the audio on your PC.
+Text recognition runs on your computer. The recognized subtitle text is sent to Google Translate, or to Gemini if you chose it, to be translated (Apple Translation on the Mac works offline). With Gemini, the last few lines are sent along as context. No screenshots or audio leave your computer; in Listen mode, Windows Live Captions processes the audio on your PC.
 
 ## Performance
 
