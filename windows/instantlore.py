@@ -24,7 +24,7 @@ from pathlib import Path
 
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
-APP_VERSION = "1.4.0"
+APP_VERSION = "1.4.1"
 DEVELOPER = "Soulrose"
 REPO = "soulrose/instantlore"
 

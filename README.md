@@ -1,6 +1,6 @@
 # InstantLore
 
-Live translated subtitles for games. Version 1.4.0 · Developed by **Soulrose**
+Live translated subtitles for games. Version 1.4.1 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
