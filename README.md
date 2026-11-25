@@ -1,6 +1,6 @@
 # InstantLore
 
-Live translated subtitles for games. Version 1.5.2 · Developed by **Soulrose**
+Live translated subtitles for games. Version 1.5.3 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
@@ -53,7 +53,7 @@ To update, click **Check for updates** at the bottom of the window (Mac: **Check
 3. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation.
 4. Click **Start translating** (**Ctrl+Alt+T**).
 
-There is no Done button: each box saves as soon as you let go of the mouse, and editing ends by itself a few seconds after you stop moving it (or press the hotkey again to finish right away). InstantLore remembers both boxes, so next time you only need step 4.
+There is no Done button: each box saves as soon as you let go of the mouse, and editing ends by itself about 1.5 seconds after you stop moving it. To finish right away, click anywhere in the InstantLore window or press the hotkey again. InstantLore remembers both boxes, so next time you only need step 4.
 
 ## Listen mode (Windows 11)
 

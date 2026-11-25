@@ -24,7 +24,7 @@ from pathlib import Path
 
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
-APP_VERSION = "1.5.2"
+APP_VERSION = "1.5.3"
 DEVELOPER = "Soulrose"
 REPO = "soulrose/instantlore"
 
@@ -934,6 +934,8 @@ class Box:
 
     def set_editing(self, on):
         self.editing = on
+        if on:
+            self.edit_started = time.time()
         set_click_through(self.win, not on)
         self.win.attributes("-alpha", self.alpha_edit if on else self.alpha_normal)
         self.redraw()
@@ -1272,6 +1274,8 @@ class App:
         self.region = Box(self.root, region, C["accent"], self.t("box_region"), lambda: self.box_changed(self.region))
         self.sub = SubtitleBox(self.root, sub, self.cfg, self.t("box_sub"), lambda: self.box_changed(self.sub))
         self._finish_timers = {}
+        # คลิกที่ไหนก็ได้ในหน้าต่างหลัก = จบการแก้ไขกล่องทันที (ไม่ต้องรอให้หายเอง)
+        self.root.bind_all("<ButtonPress-1>", self._click_anywhere, add="+")
         self.sub.alpha_edit, self.sub.alpha_normal = 0.75, 0.92
         self.cfg["region"], self.cfg["sub"] = region, sub
         self.region.set_editing(False)
@@ -1503,7 +1507,7 @@ class App:
 
     # ---------- คำสั่ง
     # ไม่มีปุ่ม "เสร็จ": ลากเมื่อไหร่บันทึกทันที แล้วจบการแก้ไขเองเมื่อไม่ได้ขยับ
-    FINISH_AFTER_EDIT = 3000   # มิลลิวินาที หลังลาก/เลื่อนครั้งล่าสุด
+    FINISH_AFTER_EDIT = 1500   # มิลลิวินาที หลังลาก/เลื่อนครั้งล่าสุด
     FINISH_IF_UNTOUCHED = 8000  # ถ้ากดแก้ไขแล้วยังไม่ได้ขยับเลย
 
     def box_changed(self, box):
@@ -1516,6 +1520,17 @@ class App:
             self.root.after_cancel(old)
         if delay is not None:
             self._finish_timers[id(box)] = self.root.after(delay, lambda: self.finish_edit(box))
+
+    def _click_anywhere(self, e):
+        try:
+            if e.widget.winfo_toplevel() is not self.root:
+                return  # คลิกบนกล่องเอง (กำลังลาก) หรือหน้าต่างอื่นของโปรแกรม
+        except Exception:
+            return
+        for box in (self.region, self.sub):
+            # ข้ามคลิกเดียวกับที่เพิ่งกด "แก้ไข" (ปุ่มทำงานก่อนตัวจับคลิกนี้)
+            if box.editing and not box.dragging and time.time() - getattr(box, "edit_started", 0) > 0.3:
+                self.finish_edit(box)
 
     def finish_edit(self, box):
         self._finish_timers.pop(id(box), None)
