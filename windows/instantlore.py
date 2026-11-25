@@ -747,6 +747,40 @@ class Box:
             self.on_change()
 
 
+def wrap_lines(text, measure, maxw):
+    """ตัดบรรทัดที่ช่องว่างเท่านั้น (Tk ตัดภาษาไทยกลางคำ) คำที่ยาวเกินบรรทัดค่อยตัดทีละตัวอักษร
+    แล้วเกลี่ยความยาวให้บรรทัดสุดท้ายไม่เหลือคำเดียวโดดๆ"""
+    def greedy(width):
+        lines, cur = [], ""
+        for word in text.split(" "):
+            cand = f"{cur} {word}" if cur else word
+            if measure(cand) <= width:
+                cur = cand
+                continue
+            if cur:
+                lines.append(cur)
+            cur = ""
+            for ch in word:  # คำเดียวยาวเกินบรรทัด (เช่น จีน/ญี่ปุ่นที่ไม่มีช่องว่าง)
+                if cur and measure(cur + ch) > width:
+                    lines.append(cur)
+                    cur = ""
+                cur += ch
+        if cur:
+            lines.append(cur)
+        return lines
+
+    lines = greedy(maxw)
+    if len(lines) > 1:
+        width = maxw
+        while width > maxw * 0.5:
+            narrower = greedy(width * 0.95)
+            if len(narrower) != len(lines):
+                break
+            width *= 0.95
+            lines = narrower
+    return "\n".join(lines)
+
+
 class SubtitleBox(Box):
     def __init__(self, root, rect, cfg, title, on_change):
         super().__init__(root, rect, "#4cc38a", title, on_change)
@@ -781,15 +815,17 @@ class SubtitleBox(Box):
             + ([(en, max(11, int(fs * 0.55)), "#d8d8d8", "normal")] if self.cfg["show_english"] and en else [])
         ):
             font = ("Leelawadee UI", size, weight) if IS_WIN else ("Helvetica", size, weight)
+            import tkinter.font as tkfont
+            text = wrap_lines(text, tkfont.Font(root=c, font=font).measure, wrap)
             if self.cfg["bg_box"]:
                 offsets = [(2, 2)]  # เงาเบาๆ
             else:
                 k = 2 if size >= 20 else 1  # ขอบดำรอบตัวอักษร ให้อ่านออกบนฉากสว่าง
                 offsets = [(dx, dy) for dx in (-k, 0, k) for dy in (-k, 0, k) if dx or dy]
             for dx, dy in offsets:
-                items.append(c.create_text(w // 2 + dx, y + dy, text=text, width=wrap, anchor="s",
+                items.append(c.create_text(w // 2 + dx, y + dy, text=text, anchor="s",
                                            justify="center", fill="black", font=font))
-            t = c.create_text(w // 2, y, text=text, width=wrap, anchor="s", justify="center",
+            t = c.create_text(w // 2, y, text=text, anchor="s", justify="center",
                               fill=color, font=font)
             items.append(t)
             y = c.bbox(t)[1] - 4

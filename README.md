@@ -14,6 +14,14 @@ Live translated subtitles for games. Version 1.4.0 · Developed by **Soulrose**
 
 InstantLore reads a game's subtitles from your screen, translates them, and shows the translation in a floating box over the game. For games without subtitles, it can listen to the speech instead (Windows 11).
 
+## What it looks like
+
+| Screen mode, background box | Screen mode, outlined text | Listen mode (game without subtitles) |
+|---|---|---|
+| ![Screen mode](docs/example-screen.png) | ![Outlined text](docs/example-outline.png) | ![Listen mode](docs/example-listen.png) |
+
+You choose where the translation sits, for example just above the game's own subtitles. In Listen mode the original line heard by Live Captions appears above the translation (turn it off with **Show original text**).
+
 ## Features
 
 - **Reads subtitles from the screen** and translates them as they change. It hides the translation when the subtitle disappears.
