@@ -1,6 +1,6 @@
 # InstantLore
 
-Version 1.3 · Developed by **Soulrose**
+Version 1.3.1 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
@@ -34,8 +34,20 @@ On first launch InstantLore downloads a small text-recognition model, so it need
 2. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation to appear.
 3. Click **Start translating**, or press **Ctrl+Alt+T**.
 
+### Fullscreen games
+
+| Game display mode | Translation overlay | Auto detect |
+|---|---|---|
+| Borderless / Windowed fullscreen | Works | Works |
+| Exclusive fullscreen | Hidden by the game | Sees a black screen |
+
+Set the game to **Borderless** or **Windowed fullscreen**; it looks the same as fullscreen. If InstantLore can only see a black screen, it tells you so in the status line.
+
+You don't need to leave the game to set things up:
+- **Auto:** with a subtitle on screen, press **Ctrl+Alt+A**, then **Ctrl+Alt+R** when the box looks right.
+- **By hand:** press **Ctrl+Alt+R** (capture area) or **Ctrl+Alt+M** (subtitle position). If the game holds the mouse, pause the game to get the cursor back, or move the box with **Ctrl+Alt+arrow keys** and resize it with **Ctrl+Alt+Shift+arrow keys**. Press the same hotkey again when done.
+
 Tips for Windows:
-- Set the game to **Borderless** or **Windowed Fullscreen**. Exclusive fullscreen hides the overlay.
 - If the hotkeys don't work while the game is focused, run InstantLore as administrator (some games run elevated).
 
 **Closing the window:** the first time you press X, InstantLore asks whether to **Minimize** (keeps translating in the background) or **Quit**. Tick **Remember my choice** to skip the question next time. The **Quit** button in the bottom-right corner always closes the app.
@@ -59,6 +71,8 @@ Korean, Russian and Thai use their own text-recognition model, downloaded the fi
 | Ctrl+Alt+A | Find the subtitles automatically (Windows) |
 | Ctrl+Alt+R | Edit the capture area (press again when done) |
 | Ctrl+Alt+M | Move / resize the subtitle box (press again when done) |
+| Ctrl+Alt+arrows | Move the box you're editing |
+| Ctrl+Alt+Shift+arrows | Resize the box you're editing |
 | Ctrl+Alt+H | Show / hide the translated subtitles |
 | Ctrl+Alt+E | Show the original line above the translation |
 | Ctrl+Alt+B | Background box on / off (off: outlined text) |

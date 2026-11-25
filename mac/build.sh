@@ -16,7 +16,7 @@ cat > $APP/Contents/Info.plist <<'EOF'
   <key>CFBundleName</key><string>InstantLore</string>
   <key>CFBundleExecutable</key><string>InstantLore</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>1.3</string>
+  <key>CFBundleShortVersionString</key><string>1.3.1</string>
   <key>NSHumanReadableCopyright</key><string>Developed by Soulrose</string>
   <key>LSMinimumSystemVersion</key><string>26.0</string>
   <key>LSUIElement</key><true/>
@@ -32,7 +32,8 @@ if [[ "$1" == "dmg" ]]; then
   STAGE=$(mktemp -d)
   cp -R $APP "$STAGE/"
   ln -s /Applications "$STAGE/Applications"
-  DMG="InstantLore-$VER.0-mac.dmg"
+  [[ "$VER" == *.*.* ]] || VER="$VER.0"  # ให้เป็นแบบ x.y.z
+  DMG="InstantLore-$VER-mac.dmg"
   rm -f "$DMG"
   hdiutil create -volname "InstantLore" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null
   rm -rf "$STAGE"

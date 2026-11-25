@@ -24,7 +24,7 @@ from pathlib import Path
 
 IS_WIN = sys.platform == "win32"
 APP_NAME = "InstantLore"
-APP_VERSION = "1.3"
+APP_VERSION = "1.3.1"
 DEVELOPER = "Soulrose"
 REPO = "soulrose/instantlore"
 
@@ -126,6 +126,8 @@ STRINGS = {
         "st_reload": "Loading reader for {lang}…", "st_error": "Error: {e}",
         "st_ocr_fail": "Couldn't load the text reader: {e}",
         "st_no_keys": "Hotkeys unavailable, use this window",
+        "box_keys": "Ctrl+Alt+arrows: move · Ctrl+Alt+Shift+arrows: resize",
+        "st_black": "Can't see the game. Set it to Borderless or Windowed fullscreen",
         "box_region": "① Capture area: drag over the game's subtitles · Ctrl+Alt+R when done",
         "box_sub": "② Subtitle position: drag to move, corner to resize · Ctrl+Alt+M when done",
         "ph_tr": "Translated subtitle appears here", "ph_orig": "Original subtitle appears here",
@@ -163,6 +165,8 @@ STRINGS = {
         "st_reload": "กำลังโหลดตัวอ่านภาษา{lang}…", "st_error": "ผิดพลาด: {e}",
         "st_ocr_fail": "โหลดตัวอ่านข้อความไม่ได้: {e}",
         "st_no_keys": "ปุ่มลัดใช้ไม่ได้ ใช้ปุ่มในหน้าต่างนี้แทน",
+        "box_keys": "Ctrl+Alt+ลูกศร: เลื่อน · Ctrl+Alt+Shift+ลูกศร: ปรับขนาด",
+        "st_black": "มองไม่เห็นเกม ให้ตั้งเกมเป็น Borderless หรือ Windowed fullscreen",
         "box_region": "① กล่องอ่านซับ: ลากครอบซับในเกม · กด Ctrl+Alt+R เมื่อเสร็จ",
         "box_sub": "② ตำแหน่งซับแปล: ลากเพื่อย้าย ลากมุมเพื่อปรับขนาด · กด Ctrl+Alt+M เมื่อเสร็จ",
         "ph_tr": "ซับแปลจะแสดงตรงนี้", "ph_orig": "ข้อความต้นฉบับจะแสดงตรงนี้",
@@ -199,6 +203,8 @@ STRINGS = {
         "st_reload": "正在加载{lang}识别…", "st_error": "错误：{e}",
         "st_ocr_fail": "无法加载文字识别：{e}",
         "st_no_keys": "快捷键不可用，请使用此窗口",
+        "box_keys": "Ctrl+Alt+方向键：移动 · Ctrl+Alt+Shift+方向键：调整大小",
+        "st_black": "看不到游戏画面。请将游戏设为无边框或窗口化全屏",
         "box_region": "① 字幕读取区域：拖动框住游戏字幕 · 完成后按 Ctrl+Alt+R",
         "box_sub": "② 译文位置：拖动移动，拖动角落调整大小 · 完成后按 Ctrl+Alt+M",
         "ph_tr": "译文将显示在这里", "ph_orig": "原文将显示在这里",
@@ -235,6 +241,8 @@ STRINGS = {
         "st_reload": "{lang}の認識を読み込み中…", "st_error": "エラー：{e}",
         "st_ocr_fail": "文字認識を読み込めません：{e}",
         "st_no_keys": "ショートカットが使えません。このウィンドウを使ってください",
+        "box_keys": "Ctrl+Alt+矢印：移動 · Ctrl+Alt+Shift+矢印：サイズ変更",
+        "st_black": "ゲーム画面が見えません。ボーダーレスまたはウィンドウ化フルスクリーンにしてください",
         "box_region": "① 読み取りエリア：ゲームの字幕に重ねてドラッグ · 完了したら Ctrl+Alt+R",
         "box_sub": "② 翻訳の表示位置：ドラッグで移動、角でサイズ変更 · 完了したら Ctrl+Alt+M",
         "ph_tr": "ここに翻訳が表示されます", "ph_orig": "ここに原文が表示されます",
@@ -464,6 +472,11 @@ class Translator:
         return first if isinstance(first, str) else first[0]
 
 
+def screen_is_black(bgra):
+    """ภาพทั้งจอดำสนิท (ดูแบบสุ่มทุก 16 พิกเซล)"""
+    return int(bgra[::16, ::16, :3].max()) < 10
+
+
 def find_subtitle_region(frames, W, H, exclude=()):
     """หาตำแหน่งซับจากภาพจอหลายเฟรม
 
@@ -541,6 +554,7 @@ class Box:
     def __init__(self, root, rect, color, title, on_change):
         self.win = make_overlay(root)
         self.color, self.title, self.on_change = color, title, on_change
+        self.hint = ""  # บรรทัดที่สองตอนแก้ไข: ปุ่มลูกศร
         self.editing = False
         x, y, w, h = rect
         self.win.geometry(f"{w}x{h}+{x}+{y}")
@@ -566,6 +580,8 @@ class Box:
         t = c.create_text(10, 8, anchor="nw", text="  " + self.title + "  ", fill="#141518",
                           font=(UI_FAMILY, 10, "bold"))
         c.tag_lower(c.create_rectangle(*c.bbox(t), fill=self.color, outline=""), t)
+        if self.hint:
+            c.create_text(12, c.bbox(t)[3] + 6, anchor="nw", text=self.hint, fill="#ececee", font=(UI_FAMILY, 9))
 
     def redraw(self):
         self.canvas.delete("all")
@@ -984,6 +1000,7 @@ class App:
 
         self.paint_status()
         self.region.title, self.sub.title = self.t("box_region"), self.t("box_sub")
+        self.region.hint = self.sub.hint = self.t("box_keys")
         self.sub.placeholder = (self.t("ph_tr"), self.t("ph_orig"))
         self.region.redraw()
         self.sub.redraw()
@@ -1075,6 +1092,10 @@ class App:
             "ctrl+alt+=": lambda: self.set_font_size(self.cfg["font_size"] + 2),
             "ctrl+alt+-": lambda: self.set_font_size(self.cfg["font_size"] - 2),
         }
+        # ลูกศร: เลื่อน/ปรับขนาดกล่องที่กำลังแก้ไข (ตอนเกมจับเมาส์ไว้จนลากไม่ได้)
+        for name, (dx, dy) in {"left": (-1, 0), "right": (1, 0), "up": (0, -1), "down": (0, 1)}.items():
+            keys[f"ctrl+alt+{name}"] = lambda dx=dx, dy=dy: self.nudge(dx, dy, resize=False)
+            keys[f"ctrl+alt+shift+{name}"] = lambda dx=dx, dy=dy: self.nudge(dx, dy, resize=True)
         for k, fn in keys.items():
             keyboard.add_hotkey(k, lambda fn=fn: self.ui_q.put(("call", fn)), suppress=False)
 
@@ -1108,13 +1129,18 @@ class App:
                 mon = sct.monitors[1]
                 W, H, top = mon["width"], mon["height"], int(mon["height"] * 0.4)
                 f = max(1, -(-W // 1600))  # ย่อภาพให้กว้างไม่เกิน ~1600 px
-                frames = []
+                frames, black = [], 0
                 for _ in range(10):
                     shot = np.asarray(sct.grab({"left": mon["left"], "top": mon["top"] + top,
                                                 "width": W, "height": H - top}))[::f, ::f, :3]
+                    black += screen_is_black(shot)
                     boxes = self.ocr.lines(np.ascontiguousarray(shot))
                     frames.append([(x0 * f, y0 * f + top, x1 * f, y1 * f + top, t) for x0, y0, x1, y1, t in boxes])
                     time.sleep(0.45)
+                if black == 10:
+                    self.ui_q.put(("call", lambda: (setattr(self, "detecting", False),
+                                                    self.set_status("st_black", "bad"))))
+                    return
                 ex = [(x - mon["left"], y - mon["top"], w, h) for x, y, w, h in exclude]
                 found = find_subtitle_region(frames, W, H, ex)
                 if found:
@@ -1136,8 +1162,26 @@ class App:
             self.toggle_region()  # โชว์กล่องให้ดู ปรับต่อได้ กดเสร็จเมื่อพอใจ
         self.set_status("st_auto_found", "good")
 
+    def nudge(self, dx, dy, resize=False, step=10):
+        """เลื่อน/ปรับขนาดกล่องที่กำลังแก้ไขอยู่ (กล่องที่เปิดแก้ล่าสุด)"""
+        box = getattr(self, "active_box", None)
+        if box is None or not box.editing:
+            box = self.region if self.region.editing else self.sub if self.sub.editing else None
+        if box is None:
+            return
+        x, y, w, h = box.rect()
+        if resize:
+            w, h = max(120, w + dx * step), max(40, h + dy * step)
+        else:
+            x, y = x + dx * step, y + dy * step
+        box.win.geometry(f"{w}x{h}+{x}+{y}")
+        box.win.update_idletasks()
+        self.save_boxes()
+
     def toggle_region(self):
         on = not self.region.editing
+        if on:
+            self.active_box = self.region
         if on:
             self.region.win.deiconify()
             self.region.win.attributes("-topmost", True)
@@ -1150,6 +1194,8 @@ class App:
 
     def toggle_sub(self):
         self.sub.set_editing(not self.sub.editing)
+        if self.sub.editing:
+            self.active_box = self.sub
         if not self.sub.editing:
             self.save_boxes()
         if hasattr(self, "sub_btn"):
@@ -1315,10 +1361,22 @@ class App:
         import numpy as np
         candidate = shown = ""
         empty_since = None
+        black_checks, next_black_check = 0, 0.0
         with mss.mss() as sct:
             while self.running:
                 t0 = time.time()
                 try:
+                    # ทุก 5 วิ ดูทั้งจอ: ดำสนิท 3 ครั้งติด = เกมเป็น Exclusive Fullscreen จับภาพไม่ได้
+                    if t0 >= next_black_check:
+                        next_black_check = t0 + 5
+                        if screen_is_black(np.asarray(sct.grab(sct.monitors[1]))):
+                            black_checks += 1
+                            if black_checks == 3:
+                                self.ui_q.put(("status", ("st_black", "bad", {})))
+                        else:
+                            if black_checks >= 3:
+                                self.ui_q.put(("status", ("st_running", "good", {})))
+                            black_checks = 0
                     x, y, w, h = self.cfg["region"]  # อ่านจาก cfg (tk ห้ามเรียกจากเธรดอื่น)
                     shot = sct.grab({"left": x, "top": y, "width": w, "height": h})
                     bgr = np.asarray(shot)[:, :, :3]
