@@ -1,6 +1,6 @@
 # InstantLore
 
-Version 1.4.0 · Developed by **Soulrose**
+Live translated subtitles for games. Version 1.4.0 · Developed by **Soulrose**
 
 ![InstantLore](docs/screenshot-en.png)
 
@@ -12,84 +12,122 @@ Version 1.4.0 · Developed by **Soulrose**
 
 </details>
 
-InstantLore reads the subtitles from an area of your screen, translates them, and shows the translation in a floating box over the game. You can place the translation right on top of the game's own subtitles: InstantLore leaves its own windows out of the screen capture, so it still reads the original text underneath.
+InstantLore reads a game's subtitles from your screen, translates them, and shows the translation in a floating box over the game. For games without subtitles, it can listen to the speech instead (Windows 11).
+
+## Features
+
+- **Reads subtitles from the screen** and translates them as they change. It hides the translation when the subtitle disappears.
+- **Finds the subtitles for you:** one click, and the capture box lands on the game's subtitles.
+- **Listen mode** for games without subtitles, using Windows 11 Live Captions.
+- **Overlay on top of the game:** you can place the translation right over the original subtitles, because InstantLore leaves its own windows out of the screen capture.
+- **13 game languages, 13 target languages,** and an interface in English, Thai, Chinese or Japanese.
+- **Light on your PC:** about 0.1 s of CPU per read, about 240 MB of memory, no GPU use. See [Performance](#performance).
 
 ## Download
 
-Get the latest build from [Releases](https://github.com/soulrose/instantlore/releases/latest):
+Get the latest build from [Releases](https://github.com/soulrose/instantlore/releases/latest).
 
-- **Windows 10 (2004 or later) / 11:** `InstantLore-x.y.z-windows-x64.exe`. Double-click to run; no install or Python needed.
-  If Windows shows "Windows protected your PC", click **More info → Run anyway**. The app isn't signed with a paid certificate yet.
-- **macOS 26 or later:** `InstantLore-x.y.z-mac.dmg`. Open it and drag InstantLore into Applications.
-  The first time, right-click the app and choose **Open**, because it isn't notarized by Apple yet.
+| System | File | First launch |
+|---|---|---|
+| Windows 10 (2004 or later) / 11 | `InstantLore-x.y.z-windows-x64.exe` | Double-click to run, no install needed. If Windows shows "Windows protected your PC", click **More info → Run anyway** (the app isn't signed with a paid certificate yet). |
+| macOS 26 or later | `InstantLore-x.y.z-mac.dmg` | Drag InstantLore into Applications. Right-click it and choose **Open** the first time (it isn't notarized by Apple yet), then allow **Screen Recording** and reopen the app. |
 
-On first launch InstantLore downloads a small text-recognition model, so it needs an internet connection.
+The first launch needs an internet connection to download a small text-recognition model.
 
-**Updating:** click **Check for updates** at the bottom of the window (Mac: **Check for Updates…** in the menu). If a newer version is out, InstantLore offers to open its download page.
+To update, click **Check for updates** at the bottom of the window (Mac: **Check for Updates…** in the menu). If a newer version is out, InstantLore opens its download page.
 
-## How to use
+## Quick start
 
-1. With a subtitle showing in the game, click **Auto** next to **Capture area** (or press **Ctrl+Alt+A**). InstantLore watches the screen for about 5 seconds, finds the subtitles and places the yellow box ① over them. Adjust it if needed, then click **Done**.
-   To place it by hand instead, click **Edit** and drag the box over the subtitles; drag the bottom-right corner to resize it.
-2. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation to appear.
-3. Click **Start translating**, or press **Ctrl+Alt+T**.
+1. Start the game and wait for a subtitle to appear.
+2. Click **Auto** next to **Capture area** (or press **Ctrl+Alt+A**). InstantLore watches the screen for about 5 seconds and places the yellow box ① over the subtitles. Adjust it if needed and click **Done**.
+   To place it by hand, click **Edit** instead and drag the box over the subtitles; drag the bottom-right corner to resize it.
+3. Click **Edit** next to **Subtitle position** and drag the green box ② to where you want the translation, then click **Done**.
+4. Click **Start translating** (**Ctrl+Alt+T**).
 
-### Games without subtitles: Listen mode (Windows 11)
+InstantLore remembers both boxes, so next time you only need step 4.
 
-Set **Subtitles from** to **Listen**. InstantLore then uses Windows 11's built-in **Live Captions** to turn the game's speech into text, and translates each sentence as soon as it's spoken. It adds almost no load, because Windows does the speech recognition.
+## Listen mode (Windows 11)
+
+For games without subtitles, set **Subtitles from** to **Listen**. InstantLore uses Windows 11's built-in **Live Captions** to turn the game's speech into text, and translates each sentence as soon as it's spoken. Windows does the speech recognition, so InstantLore adds almost no load.
 
 - Needs Windows 11 22H2 or later. InstantLore opens Live Captions for you and minimizes its window while listening.
-- The first time, Windows may ask you to download the Live Captions language. Choose the spoken language in Live Captions' own settings (English works best).
-- Lower the game's music and effects volume, or raise the dialogue volume, for better recognition. Battle noise causes mistakes.
-- Listen mode is Windows only; the Mac version reads the screen.
+- The first time, Windows may ask you to download the Live Captions language. Choose the spoken language in Live Captions' own settings; English works best.
+- For better recognition, lower the game's music and effects volume or raise the dialogue volume. Battle noise causes mistakes.
 
-### Fullscreen games
+## Fullscreen games
 
-| Game display mode | Translation overlay | Auto detect |
+| Game display mode | Translation overlay | Auto / screen reading |
 |---|---|---|
-| Borderless / Windowed fullscreen | Works | Works |
+| Borderless or Windowed fullscreen | Works | Works |
 | Exclusive fullscreen | Hidden by the game | Sees a black screen |
 
-Set the game to **Borderless** or **Windowed fullscreen**; it looks the same as fullscreen. If InstantLore can only see a black screen, it tells you so in the status line.
+Set the game to **Borderless** or **Windowed fullscreen**; it looks the same as fullscreen. If InstantLore can only see a black screen, the status line tells you.
 
-You don't need to leave the game to set things up:
-- **Auto:** with a subtitle on screen, press **Ctrl+Alt+A**, then **Ctrl+Alt+R** when the box looks right.
+You can set everything up without leaving the game:
+- **Auto:** with a subtitle on screen, press **Ctrl+Alt+A**, then **Ctrl+Alt+R** once the box looks right.
 - **By hand:** press **Ctrl+Alt+R** (capture area) or **Ctrl+Alt+M** (subtitle position). If the game holds the mouse, pause the game to get the cursor back, or move the box with **Ctrl+Alt+arrow keys** and resize it with **Ctrl+Alt+Shift+arrow keys**. Press the same hotkey again when done.
-
-Tips for Windows:
-- If the hotkeys don't work while the game is focused, run InstantLore as administrator (some games run elevated).
-
-**Closing the window:** the first time you press X, InstantLore asks whether to **Minimize** (keeps translating in the background) or **Quit**. Tick **Remember my choice** to skip the question next time. The **Quit** button in the bottom-right corner always closes the app.
-To be asked again, open `.instantlore.json` in your user folder and set `"close_action"` to `"ask"`.
-
-On the Mac, InstantLore lives in the menu bar (💬 icon) and asks for **Screen Recording** permission the first time; allow it and reopen the app. You can switch to Apple Translation for offline translation after downloading the languages in System Settings → General → Language & Region → Translation Languages.
-
-## Languages
-
-- **Interface:** English, Thai, Chinese or Japanese. It follows your system language on first launch (English if your system uses another language), and you can switch it any time under **Interface** in the bottom-left corner (Windows) or **Interface language** in the menu (Mac).
-- **Game language:** Auto detect, English, Japanese, Chinese (Simplified / Traditional), Korean, French, German, Spanish, Italian, Portuguese, Russian, Thai
-- **Translate to:** Thai, English, Japanese, Chinese, Korean, Vietnamese, Indonesian, Malay, Lao, Burmese, Khmer, French, Spanish
-
-Korean, Russian and Thai use their own text-recognition model, downloaded the first time you pick them.
 
 ## Hotkeys
 
-| Keys | Action |
+On the Mac, Ctrl+Alt is **⌃⌥** (Control+Option).
+
+| Keys | Action | Mac |
+|---|---|---|
+| Ctrl+Alt+T | Start / stop translating | ✓ |
+| Ctrl+Alt+A | Find the subtitles automatically | |
+| Ctrl+Alt+R | Edit the capture area (press again when done) | ✓ |
+| Ctrl+Alt+M | Edit the subtitle position (press again when done) | ✓ |
+| Ctrl+Alt+arrows | Move the box you're editing | |
+| Ctrl+Alt+Shift+arrows | Resize the box you're editing | |
+| Ctrl+Alt+H | Show / hide the translation | ✓ |
+| Ctrl+Alt+E | Show the original line above the translation | ✓ |
+| Ctrl+Alt+B | Background box on / off (off: outlined text) | ✓ |
+| Ctrl+Alt+= / Ctrl+Alt+- | Larger / smaller text | ✓ |
+
+## Languages
+
+- **Game language:** Auto detect, English, Japanese, Chinese (Simplified / Traditional), Korean, French, German, Spanish, Italian, Portuguese, Russian, Thai. Korean, Russian and Thai download their own text-recognition model the first time you pick them.
+- **Translate to:** Thai, English, Japanese, Chinese, Korean, Vietnamese, Indonesian, Malay, Lao, Burmese, Khmer, French, Spanish
+- **Interface:** English, Thai, Chinese or Japanese. It follows your system language on first launch (English if your system uses another language). Change it under **Interface** at the bottom of the window (Mac: **Interface language** in the menu).
+
+## Windows and Mac
+
+| | Windows | Mac |
+|---|---|---|
+| Read subtitles from the screen | ✓ | ✓ |
+| Find subtitles automatically | ✓ | |
+| Listen mode | ✓ (Windows 11) | |
+| Move boxes with arrow keys | ✓ | |
+| Translation | Google Translate | Google Translate, or Apple Translation offline |
+| Where it lives | Its own window | Menu bar (💬 icon) |
+
+For offline translation on the Mac, choose **Translator → Apple** in the menu and download the languages in System Settings → General → Language & Region → Translation Languages.
+
+## Closing the window (Windows)
+
+The first time you press X, InstantLore asks whether to **Minimize** (keeps translating in the background) or **Quit**. Tick **Remember my choice** to skip the question next time. The **Quit** button at the bottom right always closes the app.
+
+To be asked again, open `.instantlore.json` in your user folder and set `"close_action"` to `"ask"`.
+
+## Troubleshooting
+
+| Problem | Fix |
 |---|---|
-| Ctrl+Alt+T | Start / stop translating |
-| Ctrl+Alt+A | Find the subtitles automatically (Windows) |
-| Ctrl+Alt+R | Edit the capture area (press again when done) |
-| Ctrl+Alt+M | Move / resize the subtitle box (press again when done) |
-| Ctrl+Alt+arrows | Move the box you're editing |
-| Ctrl+Alt+Shift+arrows | Resize the box you're editing |
-| Ctrl+Alt+H | Show / hide the translated subtitles |
-| Ctrl+Alt+E | Show the original line above the translation |
-| Ctrl+Alt+B | Background box on / off (off: outlined text) |
-| Ctrl+Alt+= / Ctrl+Alt+- | Larger / smaller text |
+| The translation doesn't appear over the game | Set the game to Borderless or Windowed fullscreen. |
+| Status says it can't see the game | Same as above: exclusive fullscreen blocks screen capture. |
+| Hotkeys don't work while the game is focused | Some games run as administrator; run InstantLore as administrator too. |
+| Wrong or missing words | Keep the capture area tight around the subtitles, and turn on the game's subtitle background if it has one. |
+| Auto doesn't find the subtitles | Make sure a subtitle is on screen while it looks, or place the box by hand with **Edit**. |
+| Listen mode says it needs Windows 11 | Live Captions only exists on Windows 11 22H2 or later. Use screen reading instead. |
+| Windows blocks the exe | Click **More info → Run anyway**. |
 
-## Performance (Windows)
+## Privacy
 
-Measured on a 2400×300 px subtitle strip:
+Text recognition runs on your computer. The recognized subtitle text is sent to Google Translate to be translated (except with Apple Translation on the Mac, which works offline). No screenshots or audio leave your computer; in Listen mode, Windows Live Captions processes the audio on your PC.
+
+## Performance
+
+Measured on a 2400×300 px subtitle strip (Windows build):
 
 | | Default OCR settings | InstantLore |
 |---|---|---|
@@ -99,14 +137,7 @@ Measured on a 2400×300 px subtitle strip:
 
 OCR uses at most 2 CPU threads, the process runs at below-normal priority so the game always comes first, and nothing runs on the GPU.
 
-## Tips for better results
-
-- Keep the capture area tight around the subtitles; leave the HUD and minimap out.
-- Turn on the game's own subtitle background if it has one. OCR reads it much more reliably.
-- InstantLore only translates when the subtitle changes, and hides the translation when the subtitle disappears.
-- Translation uses Google Translate (online). Text recognition runs on your computer.
-
-## Run from source
+## Build from source
 
 **Windows:** copy the `windows` folder to the PC and double-click `run_windows.bat`. It installs Python if needed (run it again afterwards) and sets everything up on the first run, which takes 1–3 minutes. `build_exe.bat` builds `dist\InstantLore.exe`.
 
@@ -120,7 +151,12 @@ cd mac && ./build.sh && open InstantLore.app
 
 ## Releasing a new version
 
-1. Update the version in `windows/instantlore.py` (`APP_VERSION`), `mac/main.swift` (`appVersion`) and `mac/build.sh`.
-2. Tag and push, for example `git tag -a v1.3.0 -m "InstantLore 1.3.0" && git push origin v1.3.0`.
+1. Set the same version in `windows/instantlore.py` (`APP_VERSION`), `mac/main.swift` (`appVersion`) and `mac/build.sh` (`CFBundleShortVersionString`).
+2. Commit, push, then tag: `git tag -a vX.Y.Z -m "InstantLore X.Y.Z" && git push origin vX.Y.Z`.
    GitHub Actions builds the Windows exe, runs a self-test on it, and attaches it to the release.
-3. Build the Mac package with `cd mac && ./build.sh dmg` and attach it with `gh release upload v1.3.0 mac/InstantLore-1.3.0-mac.dmg`.
+3. Build the Mac package with `cd mac && ./build.sh dmg` and attach it: `gh release upload vX.Y.Z mac/InstantLore-X.Y.Z-mac.dmg`.
+
+## Credits
+
+- Text recognition: [RapidOCR](https://github.com/RapidAI/RapidOCR) (PP-OCR models)
+- Reading Windows Live Captions follows the approach of [LiveCaptions-Translator](https://github.com/SakiRinn/LiveCaptions-Translator)
