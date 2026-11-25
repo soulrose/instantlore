@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+*.pyc
+windows/venv/
+windows/build/
+windows/dist/
+*.spec
+mac/InstantLore.app/
+mac/GameSubTH.app/
+*.dmg
